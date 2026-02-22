@@ -339,4 +339,20 @@ textarea {
   font-weight: 600;
   margin-top: 10px;
 }
+/* =================================
+   ¿Qué hace FBOS? – minimal block
+================================= */
+
+#que-hace .lead-strong {
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 60ch;
+  margin-bottom: 12px;
+}
+
+#que-hace .minimal {
+  font-size: 14px;
+  opacity: 0.6;
+  letter-spacing: 0.02em;
+}
 }
