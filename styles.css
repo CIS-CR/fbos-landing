@@ -236,4 +236,19 @@ blockquote {
   .arrow {
     display: block;
   }
+/* --- Micro-tipografía: bloque Problema --- */
+
+#problema p {
+  margin: 0 0 14px;
+  line-height: 1.55;
+  font-size: 15px;
+}
+
+#problema p:last-child {
+  margin-bottom: 0;
+}
+   #problema p:nth-child(3),
+#problema p:nth-child(4) {
+  opacity: 0.9;
+}
 }
