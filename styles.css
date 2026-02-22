@@ -51,4 +51,128 @@
   .arrow {
     display: block;
   }
+/* --- Mobile-first polish (safe append) --- */
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+
+.hero {
+  padding: 18px 0 10px;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.lead {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 62ch;
+  opacity: 0.9;
+}
+
+.section {
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.btn.ghost:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr; /* mobile-first */
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+  max-width: 520px;
+}
+
+input,
+textarea,
+select {
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  font: inherit;
+}
+
+.fine {
+  font-size: 12px;
+  opacity: 0.75;
+  min-height: 16px;
+}
+
+.foot {
+  margin-top: 56px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+/* Desktop refinements */
+@media (min-width: 820px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Optional: 3 cards in ventajas look better in 3 cols if you want */
+  #ventajas .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
