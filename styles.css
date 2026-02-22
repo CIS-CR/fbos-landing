@@ -311,4 +311,32 @@ textarea {
   .section:nth-of-type(even) {
     padding: 28px 22px;
   }
+/* =================================
+   Problema – visual structure
+================================= */
+
+#problema .intro {
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.problem-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.source {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  background: #fff;
+}
+
+#problema .emphasis {
+  font-weight: 600;
+  margin-top: 10px;
+}
 }
