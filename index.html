@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>FBOS — Orden Operativo Simple</title>
 
-    <meta name="description" content="FBOS es un framework operativo ultra ligero que convierte solicitudes en acciones visibles y trazables para pequeños equipos." />
+    <meta
+      name="description"
+      content="FBOS es un framework operativo ultra ligero que convierte solicitudes en acciones visibles y trazables para pequeños equipos."
+    />
 
     <link rel="stylesheet" href="/styles.css" />
     <script defer src="/config.js"></script>
@@ -15,12 +18,9 @@
 
   <body>
     <main class="wrap">
-
       <!-- HERO -->
       <section class="hero">
-        <h1>
-          FBOS — Una forma de trabajar que da orden inmediato sin software pesado
-        </h1>
+        <h1>FBOS — Una forma de trabajar que da orden inmediato sin software pesado</h1>
 
         <p class="lead">
           Convierte cualquier solicitud en una acción clara, visible y cerrada conscientemente.
@@ -34,104 +34,142 @@
       </section>
 
       <!-- PROBLEMA -->
-      <section class="section">
+      <section class="section" id="problema">
         <h2>El problema: entropía operativa</h2>
 
         <p>
-         Las solicitudes llegan por todos lados:
-         WhatsApp, llamadas, mensajes sueltos.
+          Las solicitudes llegan por todos lados:
+          WhatsApp, llamadas, mensajes sueltos.
         </p>
 
         <p>
-         Se anotan en la cabeza.
-         Se responden en el momento.
-         Se olvidan después.
+          Se anotan en la cabeza.
+          Se responden en el momento.
+          Se olvidan después.
         </p>
 
         <p>
-         El seguimiento depende del dueño.
-         No hay flujo visible.
-         Solo memoria.
+          El seguimiento depende del dueño.
+          No hay flujo visible.
+          Solo memoria.
         </p>
       </section>
 
-      <<!-- 3 VENTAJAS -->
-      <section class="section">
-       <h2>3 ventajas principales</h2>
+      <!-- 3 VENTAJAS -->
+      <section class="section" id="ventajas">
+        <h2>3 ventajas principales</h2>
 
-       <div class="grid">
+        <div class="grid">
+          <div class="card">
+            <h3>Framework ultra ligero</h3>
+            <p>
+              No es un ERP. No es un CRM.
+              Es una estructura mínima para convertir solicitudes en acciones claras.
+            </p>
+          </div>
 
-       <div class="card">
-         <h3>Framework ultra ligero</h3>
-         <p>
-          No es un ERP. No es un CRM.
-          Es una estructura mínima para convertir solicitudes en acciones claras.
-         </p>
-       </div>
+          <div class="card">
+            <h3>Software económico y baja latencia</h3>
+            <p>
+              Infraestructura serverless distribuida en edge.
+              Sin servidores dedicados. Sin costos innecesarios.
+            </p>
+          </div>
 
-       <div class="card">
-         <h3>Software económico y baja latencia</h3>
-         <p>
-          Infraestructura serverless distribuida en edge.
-          Sin servidores dedicados. Sin costos innecesarios.
-         </p>
-       </div>
+          <div class="card">
+            <h3>Escalable a 10 años</h3>
+            <p>
+              Modular y portable.
+              Permite crecer por verticales sin rediseñar el sistema.
+            </p>
+          </div>
+        </div>
+      </section>
 
-       <div class="card">
-         <h3>Escalable a 10 años</h3>
-         <p>
-          Modular y portable.
-          Permite crecer por verticales sin rediseñar el sistema.
-         </p>
+      <!-- CÓMO FUNCIONA -->
+      <section class="section" id="como-funciona">
+        <h2>Cómo funciona</h2>
+
+        <p>FBOS toma cualquier solicitud y la convierte en un flujo visible hasta su cierre.</p>
+
+        <div class="flow" aria-label="Flujo mínimo universal">
+          <div class="step">
+            <span class="kicker">1</span>
+            <strong>Entrada</strong>
+            <span class="desc">Solicitud recibida</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <div class="step">
+            <span class="kicker">2</span>
+            <strong>Acción</strong>
+            <span class="desc">Se crea un trabajo</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <div class="step">
+            <span class="kicker">3</span>
+            <strong>Flujo</strong>
+            <span class="desc">Pasa por estados</span>
+          </div>
+
+          <div class="arrow" aria-hidden="true">→</div>
+
+          <div class="step">
+            <span class="kicker">4</span>
+            <strong>Cierre</strong>
+            <span class="desc">Se completa y registra</span>
+          </div>
         </div>
 
-      </div>
-    </section>
+        <p class="fine">
+          Cada solicitud enviada desde este sitio se registra como una Acción en el Core API de FBOS.
+        </p>
+      </section>
 
-     <!-- CÓMO FUNCIONA -->
-     <section class="section" id="como-funciona">
-       <h2>Cómo funciona</h2>
+      <!-- VERTICALES ACTIVAS -->
+      <section class="section" id="verticales">
+        <h2>Verticales activas</h2>
 
-       <p>
-         FBOS toma cualquier solicitud y la convierte en un flujo visible hasta su cierre.
-       </p>
+        <p>
+          FBOS ya está operando en diferentes industrias con el mismo principio:
+          convertir solicitudes en flujo visible.
+        </p>
 
-       <div class="flow" aria-label="Flujo mínimo universal">
-         <div class="step">
-           <span class="kicker">1</span>
-           <strong>Entrada</strong>
-           <span class="desc">Solicitud recibida</span>
-         </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Ding Repairs — Gold Coast</h3>
+            <p>
+              Gestión simple de trabajos de reparación.
+              Captura clara. Flujo definido. Cierre registrado.
+            </p>
+            <div class="cta-row">
+              <a class="btn ghost" href="https://demo.fbos.org/ding-repairs" target="_blank" rel="noreferrer">
+                Ver demo
+              </a>
+            </div>
+          </div>
 
-         <div class="arrow" aria-hidden="true">→</div>
+          <div class="card">
+            <h3>Service Desk — Panamá</h3>
+            <p>
+              Gestión de solicitudes para administración de propiedades.
+              Cada ticket sigue un flujo definido hasta su cierre.
+            </p>
+            <div class="cta-row">
+              <a class="btn ghost" href="https://demo.fbos.org/service-desk" target="_blank" rel="noreferrer">
+                Ver demo
+              </a>
+            </div>
+          </div>
+        </div>
 
-         <div class="step">
-           <span class="kicker">2</span>
-           <strong>Acción</strong>
-           <span class="desc">Se crea un trabajo</span>
-         </div>
-
-         <div class="arrow" aria-hidden="true">→</div>
-
-         <div class="step">
-           <span class="kicker">3</span>
-           <strong>Flujo</strong>
-           <span class="desc">Pasa por estados</span>
-         </div>
-
-         <div class="arrow" aria-hidden="true">→</div>
-
-         <div class="step">
-           <span class="kicker">4</span>
-           <strong>Cierre</strong>
-           <span class="desc">Se completa y registra</span>
-         </div>
-       </div>
-
-       <p class="fine">
-         Cada solicitud enviada desde este sitio se registra como una Acción en el Core API de FBOS.
-       </p>
-    </section>
+        <p class="fine">
+          Si tu industria no está aquí, podemos implementar una vertical nueva con el mismo flujo base.
+        </p>
+      </section>
 
       <!-- EXPLORAR -->
       <section class="section" id="explorar">
@@ -144,23 +182,24 @@
           <input name="teamSize" placeholder="Tamaño del equipo" />
           <textarea name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
           <input name="country" placeholder="País" />
+
           <button type="submit" class="btn">Enviar solicitud</button>
           <p id="formStatus" class="fine"></p>
         </form>
       </section>
 
       <!-- MANIFIESTO -->
-      <section class="section">
+      <section class="section" id="manifiesto">
         <h2>Manifiesto</h2>
         <blockquote>
-          Acción antes que dato.  
-          Flujo antes que complejidad.  
+          Acción antes que dato.<br />
+          Flujo antes que complejidad.<br />
           Claridad antes que software.
         </blockquote>
       </section>
 
       <!-- INFRA -->
-      <section class="section">
+      <section class="section" id="infra">
         <h2>Infraestructura moderna</h2>
         <ul>
           <li>Cloudflare Pages + Workers</li>
@@ -171,15 +210,12 @@
       </section>
 
       <!-- CTA FINAL -->
-      <section class="section">
+      <section class="section" id="cta-final">
         <h2>Orden operativo sin peso innecesario</h2>
         <a class="btn" href="#explorar">Solicitar demo</a>
       </section>
 
-      <footer class="foot">
-        FBOS v1.0 — Staging
-      </footer>
-
+      <footer class="foot">FBOS v1.0 — Staging</footer>
     </main>
   </body>
 </html>
