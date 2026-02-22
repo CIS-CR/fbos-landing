@@ -251,4 +251,41 @@ blockquote {
 #problema p:nth-child(4) {
   opacity: 0.9;
 }
+/* ===============================
+   Alignment: Manifiesto / Infra / CTA
+================================ */
+
+/* Manifiesto */
+#manifiesto blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.16);
+  padding-left: 14px;
+  margin-top: 10px;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Infraestructura moderna */
+.list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  max-width: 560px;
+}
+
+.item {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  opacity: 0.92;
+}
+
+/* CTA final */
+#cta-final .fine {
+  margin: 6px 0 14px;
+  max-width: 60ch;
+}
+
+#cta-final .cta-row {
+  margin-top: 0;
 }
