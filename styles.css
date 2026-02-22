@@ -1,6 +1,6 @@
 /* ================================
    FBOS Landing v1.0
-   Mobile-first minimal system
+   Mobile-first · minimal · Apple-like rhythm
 ================================ */
 
 /* Reset básico */
@@ -25,41 +25,60 @@ body {
 /* ---------------- HERO ---------------- */
 
 .hero {
-  padding: 18px 0 10px;
+  padding: 44px 0 10px;
 }
 
 h1 {
-  font-size: 32px;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   margin: 0 0 14px;
 }
 
 .lead {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
   margin: 0;
   max-width: 62ch;
   opacity: 0.9;
 }
 
-/* ---------------- SECCIONES ---------------- */
+/* ---------------- SECCIONES (Apple-like) ---------------- */
 
+/* Aire + ritmo (sin líneas divisorias) */
 .section {
-  margin-top: 34px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin-top: 64px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Contraste moderno: bloques alternos sutiles */
+.section:nth-of-type(even) {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 18px;
+  padding: 22px 16px;
+}
+
+.section:nth-of-type(odd) {
+  padding: 0;
 }
 
 h2 {
   font-size: 18px;
-  margin: 0 0 14px;
-  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
 }
 
 h3 {
   font-size: 15px;
   margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.section p {
+  margin: 0 0 14px;
+  max-width: 65ch;
+  line-height: 1.6;
 }
 
 /* ---------------- GRID & CARDS ---------------- */
@@ -71,7 +90,7 @@ h3 {
 }
 
 .card {
-  border: 1px solid rgba(0, 0, 0, 0.10);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 14px;
   padding: 16px;
   background: #ffffff;
@@ -91,14 +110,14 @@ h3 {
   align-items: center;
   justify-content: center;
   padding: 10px 16px;
-  border-radius: 10px;
+  border-radius: 12px; /* más “system” */
   border: 1px solid rgba(0, 0, 0, 0.15);
   background: #ffffff;
   color: #111111;
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .btn:hover {
@@ -107,6 +126,7 @@ h3 {
 
 .btn.ghost {
   background: transparent;
+  border-color: rgba(0, 0, 0, 0.14);
 }
 
 .btn.ghost:hover {
@@ -131,6 +151,7 @@ select {
   border: 1px solid rgba(0, 0, 0, 0.14);
   font: inherit;
   width: 100%;
+  background: #fff;
 }
 
 textarea {
@@ -141,6 +162,18 @@ textarea {
   font-size: 12px;
   opacity: 0.75;
   min-height: 16px;
+}
+
+/* ---------------- Micro-tipografía: Problema ---------------- */
+
+#problema p {
+  margin: 0 0 14px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+#problema p:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------------- FLUJO (Cómo funciona) ---------------- */
@@ -159,6 +192,7 @@ textarea {
   border-radius: 12px;
   padding: 14px;
   min-width: 160px;
+  background: #fff;
 }
 
 .step strong {
@@ -193,78 +227,19 @@ textarea {
 
 /* ---------------- MANIFIESTO ---------------- */
 
-blockquote {
-  border-left: 3px solid rgba(0, 0, 0, 0.25);
-  padding-left: 15px;
-  margin: 0;
-  opacity: 0.85;
-}
-
-/* ---------------- FOOTER ---------------- */
-
-.foot {
-  margin-top: 56px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  font-size: 12px;
-  opacity: 0.65;
-}
-
-/* ================================
-   Desktop refinements
-================================ */
-
-@media (min-width: 820px) {
-
-  h1 {
-    font-size: 40px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  /* Ventajas en 3 columnas */
-  #ventajas .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .flow {
-    flex-wrap: nowrap;
-  }
-
-  .arrow {
-    display: block;
-  }
-/* --- Micro-tipografía: bloque Problema --- */
-
-#problema p {
-  margin: 0 0 14px;
-  line-height: 1.55;
-  font-size: 15px;
-}
-
-#problema p:last-child {
-  margin-bottom: 0;
-}
-   #problema p:nth-child(3),
-#problema p:nth-child(4) {
-  opacity: 0.9;
-}
-/* ===============================
-   Alignment: Manifiesto / Infra / CTA
-================================ */
-
-/* Manifiesto */
 #manifiesto blockquote {
   border-left: 2px solid rgba(0, 0, 0, 0.16);
   padding-left: 14px;
   margin-top: 10px;
+  margin-left: 0;
+  margin-right: 0;
   line-height: 1.6;
   font-size: 16px;
+  opacity: 0.88;
 }
 
-/* Infraestructura moderna */
+/* ---------------- INFRA (list cards) ---------------- */
+
 .list {
   display: grid;
   gap: 10px;
@@ -278,9 +253,11 @@ blockquote {
   padding: 12px 14px;
   font-size: 14px;
   opacity: 0.92;
+  background: #fff;
 }
 
-/* CTA final */
+/* ---------------- CTA final ---------------- */
+
 #cta-final .fine {
   margin: 6px 0 14px;
   max-width: 60ch;
@@ -288,4 +265,50 @@ blockquote {
 
 #cta-final .cta-row {
   margin-top: 0;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.foot {
+  margin-top: 96px;
+  padding-top: 22px;
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+/* ================================
+   Desktop refinements
+================================ */
+
+@media (min-width: 820px) {
+  .hero {
+    padding-top: 64px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Ventajas en 3 columnas */
+  #ventajas .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Flujo horizontal + arrows visibles */
+  .flow {
+    flex-wrap: nowrap;
+  }
+
+  .arrow {
+    display: block;
+  }
+
+  /* Bloques alternos con padding un poco mayor */
+  .section:nth-of-type(even) {
+    padding: 28px 22px;
+  }
 }
