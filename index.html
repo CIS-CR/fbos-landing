@@ -88,34 +88,50 @@
       </div>
     </section>
 
-      <!-- FLUJO -->
-      <section class="section">
-        <h2>Cómo funciona</h2>
-        <div class="flow">
-          <span>Entrada</span>
-          <span>→</span>
-          <span>Acción</span>
-          <span>→</span>
-          <span>Flujo</span>
-          <span>→</span>
-          <span>Cierre</span>
-        </div>
-      </section>
+     <!-- CÓMO FUNCIONA -->
+     <section class="section" id="como-funciona">
+       <h2>Cómo funciona</h2>
 
-      <!-- VERTICALES -->
-      <section class="section" id="verticales">
-        <h2>Verticales activas</h2>
-        <div class="grid">
-          <div class="card">
-            <h3>Ding Repairs — Gold Coast</h3>
-            <p>Gestión simple de trabajos de reparación.</p>
-          </div>
-          <div class="card">
-            <h3>Service Desk — Panamá</h3>
-            <p>Gestión de solicitudes para propiedades.</p>
-          </div>
-        </div>
-      </section>
+       <p>
+         FBOS toma cualquier solicitud y la convierte en un flujo visible hasta su cierre.
+       </p>
+
+       <div class="flow" aria-label="Flujo mínimo universal">
+         <div class="step">
+           <span class="kicker">1</span>
+           <strong>Entrada</strong>
+           <span class="desc">Solicitud recibida</span>
+         </div>
+
+         <div class="arrow" aria-hidden="true">→</div>
+
+         <div class="step">
+           <span class="kicker">2</span>
+           <strong>Acción</strong>
+           <span class="desc">Se crea un trabajo</span>
+         </div>
+
+         <div class="arrow" aria-hidden="true">→</div>
+
+         <div class="step">
+           <span class="kicker">3</span>
+           <strong>Flujo</strong>
+           <span class="desc">Pasa por estados</span>
+         </div>
+
+         <div class="arrow" aria-hidden="true">→</div>
+
+         <div class="step">
+           <span class="kicker">4</span>
+           <strong>Cierre</strong>
+           <span class="desc">Se completa y registra</span>
+         </div>
+       </div>
+
+       <p class="fine">
+         Cada solicitud enviada desde este sitio se registra como una Acción en el Core API de FBOS.
+       </p>
+    </section>
 
       <!-- EXPLORAR -->
       <section class="section" id="explorar">
