@@ -425,4 +425,21 @@ textarea {
   .hero-media {
     padding: 18px;
   }
+   .hero-media {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-mock {
+  width: 100%;
+  max-width: 360px;      /* tamaño tipo teléfono */
+  height: auto;
+  display: block;
+  border-radius: 28px;   /* look de device */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 6px 18px rgba(0, 0, 0, 0.06);
+}
 }
