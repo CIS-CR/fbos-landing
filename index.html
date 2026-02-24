@@ -8,8 +8,18 @@
 
     <meta
       name="description"
-      content="FBOS es un framework operativo ultra ligero que convierte solicitudes en acciones visibles y trazables para pequeños equipos."
+      content="FBOS convierte solicitudes en acciones visibles y trazables para operar con claridad, desde el día 1."
     />
+
+    <meta name="theme-color" content="#0b0b0b" />
+
+    <!-- Open Graph (share) -->
+    <meta property="og:title" content="FBOS — Orden Operativo Simple" />
+    <meta
+      property="og:description"
+      content="Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar."
+    />
+    <meta property="og:type" content="website" />
 
     <link rel="stylesheet" href="/styles.css" />
     <script defer src="/config.js"></script>
@@ -20,10 +30,10 @@
     <main class="wrap">
       <!-- HERO -->
       <section class="hero">
-        <h1>Ordena tu trabajo sin software complicado</h1>
+        <h1>Ordena tu operación sin software complicado</h1>
 
         <p class="lead">
-          Convierte cualquier solicitud en una tarea clara, visible y fácil de cerrar.
+          Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar.
           Sin sistemas pesados. Sin procesos confusos.
         </p>
 
@@ -37,42 +47,36 @@
       <section class="section" id="problema">
         <h2>El problema</h2>
 
-        <p class="intro">
-          Las solicitudes llegan por todos lados:
+        <p class="intro">Las solicitudes llegan por todos lados:</p>
+
+        <div class="problem-sources" aria-label="Canales comunes de solicitudes">
+          <div class="source">WhatsApp</div>
+          <div class="source">Llamadas</div>
+          <div class="source">Mensajes</div>
+          <div class="source">Notas mentales</div>
+        </div>
+
+        <p>
+          Se atienden en el momento…
+          y después se olvidan.
         </p>
 
-      <div class="problem-sources">
-        <div class="source">WhatsApp</div>
-        <div class="source">Llamadas</div>
-        <div class="source">Mensajes</div>
-        <div class="source">Notas mentales</div>
-      </div>
+        <p class="emphasis">Todo depende de tu memoria.</p>
 
-      <p>
-         Se atienden en el momento…
-         y después se olvidan.
-      </p>
+        <p>No hay una vista clara de lo que está pendiente.</p>
+      </section>
 
-      <p class="emphasis">
-         Todo depende de tu memoria.
-      </p>
-
-      <p>
-         No hay una vista clara de lo que está pendiente.
-      </p>
-    </section>
       <!-- ¿QUÉ HACE FBOS? -->
       <section class="section" id="que-hace">
         <h2>¿Qué hace FBOS?</h2>
 
         <p class="lead-strong">
-          Toma cada solicitud y la convierte en una tarea visible hasta que se complete.
+          Toma cada solicitud y la convierte en una acción visible hasta que se complete.
         </p>
 
-        <p class="minimal">
-          Nada más.
-        </p>
+        <p class="minimal">Nada más.</p>
       </section>
+
       <!-- 3 VENTAJAS -->
       <section class="section" id="ventajas">
         <h2>3 ventajas principales</h2>
@@ -87,10 +91,10 @@
           </div>
 
           <div class="card">
-            <h3>Software económico y baja latencia</h3>
+            <h3>Costo bajo por defecto</h3>
             <p>
-              Infraestructura serverless distribuida en edge.
-              Sin servidores dedicados. Sin costos innecesarios.
+              Sin servidores dedicados. Sin mantenimiento constante.
+              Pagas según uso, no por complejidad.
             </p>
           </div>
 
@@ -110,8 +114,8 @@
 
         <p>FBOS toma cualquier solicitud y la convierte en un flujo visible hasta su cierre.</p>
 
-        <div class="flow" aria-label="Flujo mínimo universal">
-          <div class="step">
+        <div class="flow" aria-label="Flujo mínimo universal" role="list">
+          <div class="step" role="listitem">
             <span class="kicker">1</span>
             <strong>Entrada</strong>
             <span class="desc">Solicitud recibida</span>
@@ -119,26 +123,26 @@
 
           <div class="arrow" aria-hidden="true">→</div>
 
-          <div class="step">
+          <div class="step" role="listitem">
             <span class="kicker">2</span>
             <strong>Acción</strong>
-            <span class="desc">Se crea un trabajo</span>
+            <span class="desc">Se crea un ítem único</span>
           </div>
 
           <div class="arrow" aria-hidden="true">→</div>
 
-          <div class="step">
+          <div class="step" role="listitem">
             <span class="kicker">3</span>
             <strong>Flujo</strong>
-            <span class="desc">Pasa por estados</span>
+            <span class="desc">Pasa por estados visibles</span>
           </div>
 
           <div class="arrow" aria-hidden="true">→</div>
 
-          <div class="step">
+          <div class="step" role="listitem">
             <span class="kicker">4</span>
             <strong>Cierre</strong>
-            <span class="desc">Se completa y registra</span>
+            <span class="desc">Se completa y queda registro</span>
           </div>
         </div>
 
@@ -164,7 +168,13 @@
               Captura clara. Flujo definido. Cierre registrado.
             </p>
             <div class="cta-row">
-              <a class="btn ghost" href="https://demo.fbos.org/ding-repairs" target="_blank" rel="noreferrer">
+              <a
+                class="btn ghost"
+                href="https://demo.fbos.org/ding-repairs"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Abrir demo Ding Repairs en una nueva pestaña"
+              >
                 Ver demo
               </a>
             </div>
@@ -177,7 +187,13 @@
               Cada ticket sigue un flujo definido hasta su cierre.
             </p>
             <div class="cta-row">
-              <a class="btn ghost" href="https://demo.fbos.org/service-desk" target="_blank" rel="noreferrer">
+              <a
+                class="btn ghost"
+                href="https://demo.fbos.org/service-desk"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Abrir demo Service Desk en una nueva pestaña"
+              >
                 Ver demo
               </a>
             </div>
@@ -194,15 +210,43 @@
         <h2>Explorar FBOS en tu industria</h2>
 
         <form id="leadForm" class="form">
-          <input name="name" placeholder="Nombre" required />
-          <input name="email" type="email" placeholder="Email" required />
-          <input name="industry" placeholder="Industria" required />
-          <input name="teamSize" placeholder="Tamaño del equipo" />
-          <textarea name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
-          <input name="country" placeholder="País" />
+          <label class="sr-only" for="name">Nombre</label>
+          <input id="name" name="name" placeholder="Nombre" autocomplete="name" required />
+
+          <label class="sr-only" for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            autocomplete="email"
+            inputmode="email"
+            required
+          />
+
+          <label class="sr-only" for="industry">Industria</label>
+          <input id="industry" name="industry" placeholder="Industria" autocomplete="organization-title" required />
+
+          <label class="sr-only" for="teamSize">Tamaño del equipo</label>
+          <input
+            id="teamSize"
+            name="teamSize"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+            placeholder="Tamaño del equipo"
+            autocomplete="off"
+          />
+
+          <label class="sr-only" for="pain">Principal problema operativo</label>
+          <textarea id="pain" name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
+
+          <label class="sr-only" for="country">País</label>
+          <input id="country" name="country" placeholder="País" autocomplete="country-name" />
 
           <button type="submit" class="btn">Enviar solicitud</button>
-          <p id="formStatus" class="fine"></p>
+          <p id="formStatus" class="fine" aria-live="polite"></p>
         </form>
       </section>
 
@@ -220,7 +264,7 @@
       <section class="section" id="infra">
         <h2>Infraestructura moderna</h2>
 
-        <div class="list">
+        <div class="list" aria-label="Componentes de infraestructura">
           <div class="item">Cloudflare Pages + Workers</div>
           <div class="item">Core API propio</div>
           <div class="item">Resend + Gmail</div>
@@ -244,5 +288,7 @@
 
       <footer class="foot">FBOS v1.0 — Staging</footer>
     </main>
+  </body>
+</html>
   </body>
 </html>
