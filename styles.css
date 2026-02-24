@@ -13,21 +13,6 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background: #ffffff;
   color: #111111;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Utilidad accesible (labels invisibles) */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 /* Contenedor principal */
@@ -44,8 +29,8 @@ body {
 }
 
 h1 {
-  font-size: clamp(32px, 5vw, 42px);
-  line-height: 1.08;
+  font-size: 34px;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   margin: 0 0 14px;
 }
@@ -68,14 +53,13 @@ h1 {
 }
 
 /* Contraste moderno: bloques alternos sutiles */
-/* OJO: acotamos a secciones directas para evitar “efecto dominó” */
-.wrap > .section:nth-of-type(even) {
+.section:nth-of-type(even) {
   background: rgba(0, 0, 0, 0.02);
   border-radius: 18px;
   padding: 22px 16px;
 }
 
-.wrap > .section:nth-of-type(odd) {
+.section:nth-of-type(odd) {
   padding: 0;
 }
 
@@ -110,11 +94,6 @@ h3 {
   border-radius: 14px;
   padding: 16px;
   background: #ffffff;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.card:focus-within {
-  border-color: rgba(0, 0, 0, 0.22);
 }
 
 /* ---------------- BOTONES ---------------- */
@@ -131,28 +110,22 @@ h3 {
   align-items: center;
   justify-content: center;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: 12px; /* más “system” */
   border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #111111; /* primario más claro */
-  color: #ffffff;
+  background: #ffffff;
+  color: #111111;
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease,
-    transform 0.12s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
+  border-color: rgba(0, 0, 0, 0.35);
 }
 
 .btn.ghost {
   background: transparent;
-  color: #111111;
   border-color: rgba(0, 0, 0, 0.14);
 }
 
@@ -162,21 +135,13 @@ h3 {
   border-color: #111111;
 }
 
-/* Focus visible (teclado) */
-.btn:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid rgba(17, 17, 17, 0.7);
-  outline-offset: 2px;
-}
-
 /* ---------------- FORMULARIO ---------------- */
 
 .form {
   display: grid;
   gap: 12px;
   max-width: 520px;
+  margin: 0 auto; /* ✅ centra el bloque del formulario */
 }
 
 input,
@@ -188,14 +153,6 @@ select {
   font: inherit;
   width: 100%;
   background: #fff;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: rgba(0, 0, 0, 0.28);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 textarea {
@@ -208,27 +165,7 @@ textarea {
   min-height: 16px;
 }
 
-/* ---------------- Problema – visual structure ---------------- */
-
-#problema .intro {
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-
-.problem-sources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.source {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  font-size: 14px;
-  background: #fff;
-}
+/* ---------------- Micro-tipografía: Problema ---------------- */
 
 #problema p {
   margin: 0 0 14px;
@@ -238,26 +175,6 @@ textarea {
 
 #problema p:last-child {
   margin-bottom: 0;
-}
-
-#problema .emphasis {
-  font-weight: 600;
-  margin-top: 10px;
-}
-
-/* ---------------- ¿Qué hace FBOS? – minimal block ---------------- */
-
-#que-hace .lead-strong {
-  font-size: 18px;
-  line-height: 1.55;
-  max-width: 60ch;
-  margin-bottom: 12px;
-}
-
-#que-hace .minimal {
-  font-size: 14px;
-  opacity: 0.6;
-  letter-spacing: 0.02em;
 }
 
 /* ---------------- FLUJO (Cómo funciona) ---------------- */
@@ -351,6 +268,24 @@ textarea {
   margin-top: 0;
 }
 
+/* ---------------- Explorar – centrado visual ---------------- */
+
+#explorar {
+  text-align: center; /* ✅ centra el título y texto de la sección */
+}
+
+#explorar .form {
+  text-align: left; /* ✅ mantiene inputs alineados correctamente */
+  padding: 18px; /* ✅ estilo card */
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+}
+
+#explorar .btn {
+  width: 100%; /* ✅ mejor conversión en mobile */
+}
+
 /* ---------------- FOOTER ---------------- */
 
 .foot {
@@ -367,6 +302,10 @@ textarea {
 @media (min-width: 820px) {
   .hero {
     padding-top: 64px;
+  }
+
+  h1 {
+    font-size: 42px;
   }
 
   .grid {
@@ -388,7 +327,53 @@ textarea {
   }
 
   /* Bloques alternos con padding un poco mayor */
-  .wrap > .section:nth-of-type(even) {
+  .section:nth-of-type(even) {
     padding: 28px 22px;
   }
+}
+
+/* =================================
+   Problema – visual structure
+================================= */
+
+#problema .intro {
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.problem-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.source {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  background: #fff;
+}
+
+#problema .emphasis {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* =================================
+   ¿Qué hace FBOS? – minimal block
+================================= */
+
+#que-hace .lead-strong {
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 60ch;
+  margin-bottom: 12px;
+}
+
+#que-hace .minimal {
+  font-size: 14px;
+  opacity: 0.6;
+  letter-spacing: 0.02em;
 }
