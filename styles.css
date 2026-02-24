@@ -377,3 +377,52 @@ textarea {
   opacity: 0.6;
   letter-spacing: 0.02em;
 }
+/* =================================
+   HERO v2 — split layout + mock
+================================= */
+
+.hero-split {
+  display: grid;
+  gap: 18px;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 62ch;
+}
+
+.hero-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+/* Mock container (mobile-first: stack) */
+.hero-media {
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Image styling */
+.hero-mock {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+/* Desktop: 2 columns */
+@media (min-width: 820px) {
+  .hero-split {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 26px;
+  }
+
+  .hero-media {
+    padding: 18px;
+  }
+}
