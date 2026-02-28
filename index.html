@@ -178,6 +178,7 @@
               href="#explorar"
               data-request="demo"
               data-vertical="ding-repairs"
+              aria-label="Solicitar demo de Ding Repairs"
             >
               Solicitar demo
             </a>
@@ -191,6 +192,7 @@
               href="#explorar"
               data-request="demo"
               data-vertical="service-desk"
+              aria-label="Solicitar demo de Service Desk"
             >
               Solicitar demo
             </a>
@@ -214,16 +216,17 @@
           </p>
 
           <form id="leadForm" class="form">
+            <!-- ✅ Microajustes: hidden fields canon -->
             <input type="hidden" name="category" value="implementations" />
             <input type="hidden" id="requestType" name="requestType" value="evaluation" />
             <input type="hidden" id="demoVertical" name="demoVertical" value="" />
 
-            <input id="name" name="name" placeholder="Nombre" required />
-            <input id="email" name="email" type="email" placeholder="Email" required />
-            <input id="industry" name="industry" placeholder="Industria" required />
-            <input id="teamSize" name="teamSize" type="number" min="1" placeholder="Tamaño del equipo" />
+            <input id="name" name="name" placeholder="Nombre" autocomplete="name" required />
+            <input id="email" name="email" type="email" placeholder="Email" autocomplete="email" inputmode="email" required />
+            <input id="industry" name="industry" placeholder="Industria" autocomplete="organization-title" required />
+            <input id="teamSize" name="teamSize" type="number" min="1" step="1" inputmode="numeric" placeholder="Tamaño del equipo" autocomplete="off" />
             <textarea id="pain" name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
-            <input id="country" name="country" placeholder="País" />
+            <input id="country" name="country" placeholder="País" autocomplete="country-name" />
 
             <button type="submit" class="btn">Evaluar mi caso</button>
 
