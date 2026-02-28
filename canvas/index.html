@@ -1,1 +1,152 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FBOS Canvas — Implementations</title>
 
+    <link rel="icon" href="data:," />
+
+    <!-- Base styles del landing -->
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- Opcional: si quieres estilos específicos para el canvas del landing,
+         puedes crear /canvas/styles.css y descomentar:
+    -->
+    <!-- <link rel="stylesheet" href="/canvas/styles.css" /> -->
+  </head>
+
+  <body>
+    <main class="wrap">
+      <header class="header">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1>FBOS Canvas</h1>
+            <p>Leads — Implementations</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Nav simple para el landing -->
+      <nav class="sd-nav" aria-label="FBOS navegación">
+        <a class="sd-nav__item" href="/">Landing</a>
+        <a class="sd-nav__item is-active" href="/canvas/">Canvas</a>
+        <a class="sd-nav__item" href="/history/">Historial</a>
+      </nav>
+
+      <section class="card">
+        <div class="fbos-logo-slot">Tu logo aquí</div>
+
+        <!-- ✅ demo-aware -->
+        <div id="actionsList" class="actions-list" data-demo="implementations"></div>
+      </section>
+
+      <footer class="footer">
+        <small>FBOS Canvas v0.1 — implementations</small>
+      </footer>
+    </main>
+
+    <!-- Modal -->
+    <div id="jobModal" class="label-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="label-card" role="document">
+        <div class="label-head">
+          <strong>Solicitud</strong>
+          <button type="button" class="label-close" id="jobCloseBtn" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="label-body">
+          <div class="label-top">
+            <div>
+              <div class="label-id" id="jobModalId">FBOS-00000</div>
+              <div class="label-meta" id="jobModalState">—</div>
+            </div>
+          </div>
+
+          <div class="label-grid">
+            <div><strong>Categoría:</strong> <span id="jobModalCategory">—</span></div>
+            <div><strong>Urgencia:</strong> <span id="jobModalUrgency">—</span></div>
+
+            <!-- Reusamos ids del canvas existente para no tocar JS de inmediato -->
+            <div><strong>Nombre:</strong> <span id="jobModalDamage">—</span></div>
+            <div><strong>País:</strong> <span id="jobModalPrice">—</span></div>
+
+            <div class="label-desc">
+              <strong>Descripción:</strong> <span id="jobModalDesc">—</span>
+            </div>
+
+            <div><strong>Creado:</strong> <span id="jobModalCreated">—</span></div>
+            <div><strong>Actualizado:</strong> <span id="jobModalUpdated">—</span></div>
+          </div>
+
+          <div id="jobModalStatus" class="status" aria-live="polite"></div>
+
+          <!-- Comments -->
+          <div class="label-comments">
+            <div class="label-comments__title">Comentarios</div>
+            <div id="jobCommentsList" class="comments-list"></div>
+
+            <div class="comments-composer">
+              <textarea
+                id="jobCommentText"
+                class="comments-textarea"
+                rows="3"
+                placeholder="Escribe un comentario..."
+              ></textarea>
+
+              <div class="comments-actions">
+                <input
+                  id="jobCommentBy"
+                  class="comments-by"
+                  type="text"
+                  placeholder="Tu nombre (opcional)"
+                />
+                <button id="jobCommentSendBtn" class="btn-secondary" type="button">
+                  Comentar
+                </button>
+              </div>
+
+              <div id="jobCommentStatus" class="inline-msg" style="display: none"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="label-actions">
+          <!-- En implementations no hay “scan view” real, lo dejamos útil: vuelve al landing -->
+          <button type="button" class="btn-secondary" id="jobOpenScanBtn">Abrir landing</button>
+          <button type="button" class="btn-secondary" id="jobOpenApiBtn">Open API</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Config antes del JS -->
+    <script>
+      window.FBOS_CANVAS_CONFIG = {
+        useMultiDemo: true,
+        demos: {
+          implementations: {
+            demo: "implementations",
+            // Botón "Abrir landing"
+            scanPath: "/#explorar",
+            states: ["Nuevas", "Validadas", "Asignadas", "En ejecución", "En revisión", "Cerradas"],
+            actionLabel: {
+              Nuevas: "Validar",
+              Validadas: "Asignar",
+              Asignadas: "Iniciar",
+              "En ejecución": "Revisión",
+              "En revisión": "Cerrar",
+              Cerradas: "Cerrada",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- ✅ IMPORTANTE:
+         1) Copia el MISMO canvas.js que usas en service-desk a /canvas.js (recomendado),
+            o cambia esta ruta a donde lo tengas.
+         2) Ejemplo alterno si lo dejas dentro de /service-desk/: <script src="/service-desk/canvas.js"></script>
+    -->
+    <script src="/canvas.js"></script>
+  </body>
+</html>
