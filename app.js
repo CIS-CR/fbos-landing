@@ -1,19 +1,21 @@
-// /app.js — FBOS Landing (Implementations intake) v1
-// Sends form to FBOS Core Engine:
-// POST https://api.fbos.org/api/demos/implementations/submit
+// /app.js — FBOS Landing (Implementations intake) v2
+// - Connects form to FBOS Core
+// - Vertical cards set requestType=demo + demoVertical
+// - CTA "Evaluar mi caso" forces evaluation mode
 
 const API_BASE = "https://api.fbos.org";
 const ENDPOINT = "/api/demos/implementations/submit";
 
 const form = document.getElementById("leadForm");
 const statusEl = document.getElementById("formStatus");
+const submitBtn = form?.querySelector('button[type="submit"]');
 
-const requestTypeInput = form?.querySelector('input[name="requestType"]');
-const demoVerticalInput = form?.querySelector('input[name="demoVertical"]');
+const requestTypeEl = document.getElementById("requestType"); // hidden
+const demoVerticalEl = document.getElementById("demoVertical"); // hidden
 
 function setStatus(msg, kind = "") {
   if (!statusEl) return;
-  statusEl.className = `fine ${kind}`.trim(); // keep your existing typography class
+  statusEl.className = `fine ${kind}`.trim();
   statusEl.textContent = msg || "";
 }
 
@@ -21,18 +23,47 @@ function str(v) {
   return String(v ?? "").trim();
 }
 
+function setMode(mode, vertical = "") {
+  if (!requestTypeEl || !demoVerticalEl) return;
+
+  requestTypeEl.value = mode === "demo" ? "demo" : "evaluation";
+  demoVerticalEl.value = mode === "demo" ? str(vertical) : "";
+
+  if (submitBtn) {
+    submitBtn.textContent = mode === "demo" ? "Solicitar demo" : "Evaluar mi caso";
+  }
+
+  // Clear status when switching modes
+  setStatus("");
+}
+
 function getFormJSON(formEl) {
   const fd = new FormData(formEl);
   const data = {};
   fd.forEach((v, k) => (data[k] = str(v)));
 
-  // Add standard metadata (same pattern as Ding Repairs)
   data.source = "fbos-landing.pages";
   data.user_agent = navigator.userAgent;
   data.client_ts = new Date().toISOString();
 
   return data;
 }
+
+// 1) Wire “Solicitar demo” buttons inside vertical cards
+document.querySelectorAll('[data-request="demo"][data-vertical]').forEach((a) => {
+  a.addEventListener("click", () => {
+    const vertical = a.getAttribute("data-vertical") || "";
+    setMode("demo", vertical);
+  });
+});
+
+// 2) Force evaluation when user clicks any link to #explorar that is NOT a demo request
+document.querySelectorAll('a[href="#explorar"]:not([data-request="demo"])').forEach((a) => {
+  a.addEventListener("click", () => setMode("evaluation"));
+});
+
+// Default mode on load
+setMode("evaluation");
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -46,19 +77,18 @@ form?.addEventListener("submit", async (e) => {
 
   const payload = getFormJSON(form);
 
-  // Minimal sanity (helps avoid silent fails)
+  // minimal sanity
   if (!payload.name || !payload.email) {
     setStatus("Por favor completa Nombre y Email.", "err");
     return;
   }
 
-  // UX: disable button while sending
-  const submitBtn = form.querySelector('button[type="submit"]');
   const originalBtnText = submitBtn ? submitBtn.textContent : "";
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = "Enviando…";
   }
+
   setStatus("Registrando solicitud…");
 
   try {
@@ -78,19 +108,26 @@ form?.addEventListener("submit", async (e) => {
     const id = out?.action_id || out?.id || "—";
     setStatus(`Solicitud registrada. ID: ${id}`, "ok");
 
-    // Reset form & restore defaults
-    form.reset();
-    if (requestTypeInput) requestTypeInput.value = "evaluation";
-    if (demoVerticalInput) demoVerticalInput.value = "";
+    // reset inputs but keep current mode (demo vs evaluation)
+    const currentMode = requestTypeEl?.value || "evaluation";
+    const currentVertical = demoVerticalEl?.value || "";
 
-    // Optional: event hook if you ever want analytics
-    window.dispatchEvent(new CustomEvent("fbos:created", { detail: { action_id: id, demo: "implementations" } }));
+    form.reset();
+
+    // restore hidden fields after reset
+    if (requestTypeEl) requestTypeEl.value = currentMode;
+    if (demoVerticalEl) demoVerticalEl.value = currentVertical;
+
+    // restore button label according to mode
+    if (submitBtn) submitBtn.textContent = currentMode === "demo" ? "Solicitar demo" : "Evaluar mi caso";
+
+    window.dispatchEvent(
+      new CustomEvent("fbos:created", { detail: { action_id: id, demo: "implementations" } })
+    );
   } catch (err) {
     setStatus(`No se pudo registrar: ${err.message}`, "err");
+    if (submitBtn) submitBtn.textContent = originalBtnText || "Enviar";
   } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalBtnText || "Evaluar mi caso";
-    }
+    if (submitBtn) submitBtn.disabled = false;
   }
 });
