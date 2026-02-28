@@ -173,13 +173,27 @@
           <div class="card">
             <h3>Ding Repairs — Gold Coast</h3>
             <p>Gestión simple de trabajos de reparación.</p>
-            <a class="btn ghost" href="https://demo.fbos.org/ding-repairs" target="_blank">Ver demo</a>
+            <a
+              class="btn ghost"
+              href="#explorar"
+              data-request="demo"
+              data-vertical="ding-repairs"
+            >
+              Solicitar demo
+            </a>
           </div>
 
           <div class="card">
             <h3>Service Desk — Panamá</h3>
             <p>Gestión de solicitudes para administración de propiedades.</p>
-            <a class="btn ghost" href="https://demo.fbos.org/service-desk" target="_blank">Ver demo</a>
+            <a
+              class="btn ghost"
+              href="#explorar"
+              data-request="demo"
+              data-vertical="service-desk"
+            >
+              Solicitar demo
+            </a>
           </div>
         </div>
 
@@ -201,6 +215,8 @@
 
           <form id="leadForm" class="form">
             <input type="hidden" name="category" value="implementations" />
+            <input type="hidden" id="requestType" name="requestType" value="evaluation" />
+            <input type="hidden" id="demoVertical" name="demoVertical" value="" />
 
             <input id="name" name="name" placeholder="Nombre" required />
             <input id="email" name="email" type="email" placeholder="Email" required />
@@ -215,7 +231,7 @@
               No enviamos newsletters. Solo conversaciones reales.
             </p>
 
-            <p id="formStatus" class="fine"></p>
+            <p id="formStatus" class="fine" aria-live="polite"></p>
           </form>
         </div>
       </section>
