@@ -206,6 +206,8 @@ body.impl-canvas .state-cards{
 
   body.impl-canvas .state-section{
     overflow: visible;
+    /* ✅ Reserva espacio para que el primer card nunca quede debajo del sticky */
+    padding-top: 56px; /* ajustable (52–64px) según cómo lo veas */
   }
 
   body.impl-canvas .state-header{
@@ -213,7 +215,10 @@ body.impl-canvas .state-cards{
     top: 72px; /* debajo del toolbar */
     z-index: 40;
 
-    margin: -12px -12px 10px;
+    /* ❌ elimina el margin negativo */
+    margin: 0 0 10px;
+
+    /* ✅ “full width” sin trucos raros */
     padding: 12px 12px 10px;
 
     background: rgba(255,255,255,.96);
@@ -227,7 +232,8 @@ body.impl-canvas .state-cards{
   }
 
   body.impl-canvas .state-cards{
-    padding-top: 6px;
+    /* ya no hace falta empujar con padding extra, pero lo puedes dejar en 0–6px */
+    padding-top: 0;
   }
 
   body.impl-canvas .state-title{
