@@ -10,7 +10,7 @@
     <!-- Base styles del landing -->
     <link rel="stylesheet" href="/styles.css" />
 
-    <!-- ✅ Estilos específicos para este canvas (FIX modal + board UI) -->
+    <!-- Estilos específicos para este canvas -->
     <link rel="stylesheet" href="/implementations/canvas/styles.css" />
   </head>
 
@@ -26,7 +26,6 @@
         </div>
       </header>
 
-      <!-- Nav simple para implementations -->
       <nav class="sd-nav" aria-label="FBOS navegación">
         <a class="sd-nav__item" href="/#explorar">Landing</a>
         <a class="sd-nav__item is-active" href="/implementations/canvas/">Canvas</a>
@@ -35,8 +34,6 @@
 
       <section class="card">
         <div class="fbos-logo-slot">Tu logo aquí</div>
-
-        <!-- ✅ demo-aware -->
         <div id="actionsList" class="actions-list" data-demo="implementations"></div>
       </section>
 
@@ -45,7 +42,6 @@
       </footer>
     </main>
 
-    <!-- Modal -->
     <div id="jobModal" class="label-modal" aria-hidden="true" role="dialog" aria-modal="true">
       <div class="label-card" role="document">
         <div class="label-head">
@@ -78,7 +74,6 @@
 
           <div id="jobModalStatus" class="status" aria-live="polite"></div>
 
-          <!-- Comments -->
           <div class="label-comments">
             <div class="label-comments__title">Comentarios</div>
             <div id="jobCommentsList" class="comments-list"></div>
