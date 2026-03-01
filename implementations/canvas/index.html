@@ -10,11 +10,12 @@
     <!-- Base styles del landing -->
     <link rel="stylesheet" href="/styles.css" />
 
-    <!-- Estilos específicos para este canvas -->
+    <!-- Estilos específicos para este canvas (scoped por .impl-canvas) -->
     <link rel="stylesheet" href="/implementations/canvas/styles.css" />
   </head>
 
-  <body>
+  <!-- ✅ CLAVE: scope del canvas para evitar colisiones con /styles.css -->
+  <body class="impl-canvas">
     <main class="wrap">
       <header class="header">
         <div class="brand">
