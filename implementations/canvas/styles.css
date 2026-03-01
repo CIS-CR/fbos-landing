@@ -587,3 +587,40 @@ body.impl-canvas .label-actions{
     align-items: stretch;
   }
 }
+/* =========================================
+   Mobile: Sticky header por columna (APP)
+   - Vertical board (1 columna)
+   - Header de cada estado se pega debajo del toolbar
+========================================= */
+@media (max-width: 819px){
+  /* Asegura que las secciones no “corten” el sticky */
+  body.impl-canvas .state-section{
+    position: relative;
+    overflow: visible;
+    padding-top: 46px; /* espacio para el header sticky */
+  }
+
+  /* Header sticky por columna */
+  body.impl-canvas .state-header{
+    position: sticky;
+    top: 64px; /* ✅ debajo del toolbar sticky */
+    z-index: 3;
+
+    /* look & feel app */
+    margin: -46px -14px 12px;  /* “full-bleed” dentro de la card */
+    padding: 10px 14px;
+
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(10px);
+    border-top-left-radius: var(--r16);
+    border-top-right-radius: var(--r16);
+  }
+
+  /* Título más “punchy” y consistente en mobile */
+  body.impl-canvas .state-title{
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+}
