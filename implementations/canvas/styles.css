@@ -624,3 +624,48 @@ body.impl-canvas .label-actions{
     letter-spacing: -0.01em;
   }
 }
+/* =========================================
+   MOBILE (<= 820px): columnas en vertical
+   + sticky header por "columna"
+========================================= */
+@media (max-width: 820px){
+
+  /* 1) En mobile: el board se vuelve vertical (1 columna) */
+  body.impl-canvas .board{
+    grid-template-columns: 1fr;
+    overflow-x: visible;       /* evita scroll horizontal en mobile */
+  }
+
+  /* 2) El contenedor de cada columna permite sticky limpio */
+  body.impl-canvas .state-section{
+    overflow: visible;         /* importante: que no recorte el sticky */
+  }
+
+  /* 3) Sticky header por columna */
+  body.impl-canvas .state-header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    /* “tapa” lo que hay debajo con fondo real */
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+
+    /* un poco de “separación” visual */
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    padding: 10px 10px 12px;
+    margin: -12px -12px 10px;   /* compensa el padding del .state-section */
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  /* 4) ✅ FIX: evita que el primer card quede “debajo” del sticky header */
+  body.impl-canvas .state-cards{
+    padding-top: 6px;
+  }
+
+  /* 5) (Opcional) un toque “app”: sombra suave cuando el header está fijo */
+  body.impl-canvas .state-header{
+    box-shadow: 0 10px 18px rgba(0,0,0,.04);
+  }
+}
