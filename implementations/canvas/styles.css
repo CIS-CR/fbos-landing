@@ -158,31 +158,43 @@ body.impl-canvas .btn.btn-small:hover{
 }
 
 /* =========================
-   Board layout
+   Board layout (FBOS mode)
+   ✅ Mobile: vertical (1 columna)
+   ✅ Desktop >=820: horizontal (6 columnas)
 ========================= */
 body.impl-canvas .actions-list{
   padding: 0; /* el padding vive dentro de .board */
 }
 
-/* IMPORTANT:
-   La UI “bonita” depende de que exista .board (tu JS la renderiza).
-*/
+/* Mobile-first: vertical */
 body.impl-canvas .board{
-  padding: 16px 18px 18px;
+  padding: 12px 14px 14px;
   display: grid;
-  grid-template-columns: repeat(6, minmax(240px, 1fr));
-  gap: 14px;
+  grid-template-columns: 1fr;  /* ✅ clave: vertical */
+  gap: 12px;
   align-items: start;
 
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;         /* ✅ NO scroll horizontal en mobile */
 }
 
-body.impl-canvas .board::-webkit-scrollbar{ height: 10px; }
-body.impl-canvas .board::-webkit-scrollbar-thumb{
-  background: rgba(0,0,0,.12);
-  border-radius: 999px;
+/* Desktop: horizontal board */
+@media (min-width: 820px){
+  body.impl-canvas .board{
+    padding: 16px 18px 18px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(240px, 1fr));
+    gap: 14px;
+
+    overflow-x: auto;                /* ✅ scroll horizontal */
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.impl-canvas .board::-webkit-scrollbar{ height: 10px; }
+  body.impl-canvas .board::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,.12);
+    border-radius: 999px;
+  }
 }
 
 /* Column */
@@ -193,6 +205,13 @@ body.impl-canvas .state-section{
   padding: 12px;
   box-shadow: 0 10px 26px rgba(0,0,0,.06);
   min-height: 120px;
+}
+
+/* Mobile: columna se siente “full width card” */
+@media (max-width: 819px){
+  body.impl-canvas .state-section{
+    padding: 14px;
+  }
 }
 
 body.impl-canvas .state-header{
@@ -539,16 +558,8 @@ body.impl-canvas .label-actions{
 }
 
 /* =========================
-   Responsive
+   Mobile modal refinements
 ========================= */
-@media (max-width: 980px){
-  body.impl-canvas .board{
-    grid-template-columns: repeat(6, minmax(220px, 1fr));
-    padding: 14px;
-  }
-}
-
-/* Mobile: la clave es que siga siendo “app” y el modal no se rompa */
 @media (max-width: 680px){
   body.impl-canvas .wrap{ padding: 14px; }
 
@@ -556,6 +567,7 @@ body.impl-canvas .label-actions{
     margin: 14px 14px 0;
   }
 
+  /* board ya es vertical; solo ajustamos spacing */
   body.impl-canvas .board{
     padding: 12px 14px 14px;
     gap: 12px;
