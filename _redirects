@@ -1,1 +1,10 @@
-/   /index.html   200
+# ✅ Dejar pasar assets tal cual (CSS/JS de implementations)
+ /implementations/canvas/styles.css  /implementations/canvas/styles.css  200
+ /implementations/canvas.js          /implementations/canvas.js          200
+
+# ✅ Rutas “tipo página” dentro de implementations
+ /implementations/canvas/*          /implementations/canvas/index.html   200
+ /implementations/history/*         /implementations/history/index.html  200
+
+# ✅ Catch-all final del landing (si lo estás usando)
+ /*                               /index.html                            200
