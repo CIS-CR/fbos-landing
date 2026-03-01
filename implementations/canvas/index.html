@@ -10,10 +10,8 @@
     <!-- Base styles del landing -->
     <link rel="stylesheet" href="/styles.css" />
 
-    <!-- Opcional: si quieres estilos específicos para el canvas del landing,
-         puedes crear /canvas/styles.css y descomentar:
-    -->
-    <!-- <link rel="stylesheet" href="/canvas/styles.css" /> -->
+    <!-- ✅ Styles específicos para implementations -->
+    <link rel="stylesheet" href="/implementations/styles.css" />
   </head>
 
   <body>
@@ -31,8 +29,8 @@
       <!-- Nav simple para el landing -->
       <nav class="sd-nav" aria-label="FBOS navegación">
         <a class="sd-nav__item" href="/">Landing</a>
-        <a class="sd-nav__item is-active" href="/canvas/">Canvas</a>
-        <a class="sd-nav__item" href="/history/">Historial</a>
+        <a class="sd-nav__item is-active" href="/implementations/canvas/">Canvas</a>
+        <a class="sd-nav__item" href="/implementations/history/">Historial</a>
       </nav>
 
       <section class="card">
@@ -142,11 +140,6 @@
       };
     </script>
 
-    <!-- ✅ IMPORTANTE:
-         1) Copia el MISMO canvas.js que usas en service-desk a /canvas.js (recomendado),
-            o cambia esta ruta a donde lo tengas.
-         2) Ejemplo alterno si lo dejas dentro de /service-desk/: <script src="/service-desk/canvas.js"></script>
-    -->
     <script src="/implementations/canvas.js"></script>
   </body>
 </html>
