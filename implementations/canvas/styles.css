@@ -1,17 +1,19 @@
 /* implementations/canvas/styles.css
-   FBOS Canvas — premium UI layer (scoped)
+   FBOS Canvas — premium UI layer (SCOPED)
+   ✅ Scope: solo aplica dentro de <body class="impl-canvas">
 */
 
-.impl-canvas{
+/* =========================
+   Scope base + tokens
+========================= */
+body.impl-canvas {
   --bg: #f6f7fb;
   --card: #ffffff;
   --text: #0b0b0b;
   --muted: rgba(0,0,0,.62);
-  --muted2: rgba(0,0,0,.48);
   --line: rgba(0,0,0,.08);
   --line2: rgba(0,0,0,.10);
   --shadow: 0 14px 50px rgba(0,0,0,.10);
-  --shadow2: 0 10px 32px rgba(0,0,0,.12);
   --r12: 12px;
   --r16: 16px;
   --r20: 20px;
@@ -20,43 +22,62 @@
   color: var(--text);
 }
 
-/* Reset mínimo para que el landing no “contamine” */
-.impl-canvas h1,
-.impl-canvas h2,
-.impl-canvas h3,
-.impl-canvas p{
-  margin: 0;
-}
-.impl-canvas a{ color: inherit; }
-.impl-canvas button,
-.impl-canvas input,
-.impl-canvas textarea{
-  font: inherit;
-}
+/* Evitar que estilos globales afecten widgets del canvas */
+body.impl-canvas a { color: inherit; }
+body.impl-canvas a:hover { opacity: .92; }
 
-/* Layout general */
-.impl-canvas .wrap{
-  max-width: 1180px;
+/* =========================
+   Layout principal
+========================= */
+body.impl-canvas .wrap{
+  max-width: 1180px;              /* pisa el max-width 960 del landing */
+  margin: 0 auto;
+  padding: 22px 18px 60px;        /* más “app-like” */
 }
 
 /* Header */
-.impl-canvas .header{
+body.impl-canvas .header{
   padding-bottom: 10px;
 }
-.impl-canvas .brand .mark{
-  border-radius: 12px;
+
+body.impl-canvas .brand{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+
+body.impl-canvas .brand .mark{
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  background: #0b0b0b;
   box-shadow: 0 10px 28px rgba(0,0,0,.10);
 }
 
-/* Nav pills */
-.impl-canvas .sd-nav{
+body.impl-canvas .brand h1{
+  margin: 0;
+  font-size: 28px; /* evita heredar tamaños enormes */
+  letter-spacing: -0.02em;
+}
+
+body.impl-canvas .brand p{
+  margin: 6px 0 0;
+  opacity: .72;
+  font-size: 14px;
+}
+
+/* =========================
+   Nav pills
+========================= */
+body.impl-canvas .sd-nav{
   display:flex;
   gap:10px;
   align-items:center;
   padding: 8px 0 14px;
   flex-wrap: wrap;
 }
-.impl-canvas .sd-nav__item{
+
+body.impl-canvas .sd-nav__item{
   display:inline-flex;
   align-items:center;
   gap:8px;
@@ -64,43 +85,51 @@
   border-radius: 999px;
   border: 1px solid var(--line);
   background: rgba(255,255,255,.75);
-  color: rgba(0,0,0,.80);
   text-decoration:none;
-  font-weight: 600;
+  font-weight: 650;
   font-size: 14px;
   backdrop-filter: blur(8px);
 }
-.impl-canvas .sd-nav__item:hover{ background:#fff; }
-.impl-canvas .sd-nav__item.is-active{
-  background:#0b0b0b;
-  color:#fff;
+
+body.impl-canvas .sd-nav__item:hover{
+  background: #fff;
+}
+
+body.impl-canvas .sd-nav__item.is-active{
+  background: #0b0b0b;
+  color: #fff;
   border-color: rgba(0,0,0,.90);
 }
 
-/* Card contenedor */
-.impl-canvas .card{
+/* =========================
+   Card contenedor principal
+========================= */
+body.impl-canvas .card{
   border-radius: var(--r20);
   border: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(255,255,255,.92), #fff);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
-.impl-canvas .fbos-logo-slot{
-  border: 1px dashed rgba(0,0,0,.16);
+
+body.impl-canvas .fbos-logo-slot{
+  margin: 16px 18px 0;
+  padding: 12px 14px;
+  border: 1px dashed rgba(0,0,0,.18);
   color: rgba(0,0,0,.55);
   border-radius: 14px;
   background: rgba(255,255,255,.7);
-  padding: 12px;
-  margin: 14px 18px 0;
 }
 
-/* Toolbar */
-.impl-canvas .canvas-toolbar{
+/* =========================
+   Toolbar
+========================= */
+body.impl-canvas .canvas-toolbar{
   display:flex;
   align-items:center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px 18px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--line);
   background: rgba(255,255,255,.85);
   position: sticky;
@@ -108,41 +137,56 @@
   z-index: 2;
   backdrop-filter: blur(10px);
 }
-.impl-canvas .canvas-title{
-  font-weight: 700;
+
+body.impl-canvas .canvas-title{
+  font-weight: 750;
   color: rgba(0,0,0,.82);
 }
-.impl-canvas .btn.btn-small{
+
+/* El botón refresh hereda .btn del landing, así que lo pisamos fuerte aquí */
+body.impl-canvas .btn.btn-small{
   border-radius: 999px;
   padding: 10px 14px;
   border: 1px solid var(--line2);
   background: #fff;
-  font-weight: 700;
-  cursor: pointer;
+  font-weight: 750;
 }
-.impl-canvas .btn.btn-small:hover{
+
+body.impl-canvas .btn.btn-small:hover{
   transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(0,0,0,.08);
 }
 
-/* Board */
-.impl-canvas .board{
-  padding: 18px;
+/* =========================
+   Board layout
+========================= */
+body.impl-canvas .actions-list{
+  padding: 0; /* el padding vive dentro de .board */
+}
+
+/* IMPORTANT:
+   La UI “bonita” depende de que exista .board (tu JS la renderiza).
+*/
+body.impl-canvas .board{
+  padding: 16px 18px 18px;
   display: grid;
   grid-template-columns: repeat(6, minmax(240px, 1fr));
   gap: 14px;
   align-items: start;
+
   overflow-x: auto;
   overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
 }
-.impl-canvas .board::-webkit-scrollbar{ height: 10px; }
-.impl-canvas .board::-webkit-scrollbar-thumb{
+
+body.impl-canvas .board::-webkit-scrollbar{ height: 10px; }
+body.impl-canvas .board::-webkit-scrollbar-thumb{
   background: rgba(0,0,0,.12);
   border-radius: 999px;
 }
 
 /* Column */
-.impl-canvas .state-section{
+body.impl-canvas .state-section{
   background: rgba(255,255,255,.80);
   border: 1px solid var(--line);
   border-radius: var(--r16);
@@ -150,57 +194,77 @@
   box-shadow: 0 10px 26px rgba(0,0,0,.06);
   min-height: 120px;
 }
-.impl-canvas .state-header{
+
+body.impl-canvas .state-header{
   display:flex;
   align-items:center;
   justify-content: space-between;
   gap: 10px;
   padding: 2px 2px 10px;
 }
-.impl-canvas .state-title{
+
+body.impl-canvas .state-title{
   font-weight: 800;
   letter-spacing: -0.2px;
 }
-.impl-canvas .state-cards{
+
+body.impl-canvas .state-cards{
   display:flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Cards */
-.impl-canvas .action-card{
-  background:#fff;
+body.impl-canvas .state-divider{
+  height: 1px;
+  background: transparent;
+}
+
+/* =========================
+   Action card
+========================= */
+body.impl-canvas .action-card{
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--r16);
   padding: 12px;
   box-shadow: 0 12px 26px rgba(0,0,0,.06);
   transition: transform .12s ease, box-shadow .12s ease;
 }
-.impl-canvas .action-card:hover{
+
+body.impl-canvas .action-card:hover{
   transform: translateY(-1px);
   box-shadow: 0 18px 34px rgba(0,0,0,.09);
 }
-.impl-canvas .action-card__top{
+
+body.impl-canvas .action-card__top{
   display:flex;
   align-items:flex-start;
   justify-content: space-between;
   gap: 10px;
 }
-.impl-canvas .action-id{
+
+body.impl-canvas .action-id{
   font-weight: 900;
   letter-spacing: .2px;
   color: rgba(0,0,0,.88);
 }
-.impl-canvas .action-id-link{ text-decoration:none; }
-.impl-canvas .action-id-link:hover{ text-decoration: underline; }
 
-.impl-canvas .action-title{
+body.impl-canvas .action-id-link{
+  text-decoration: none;
+}
+
+body.impl-canvas .action-id-link:hover{
+  text-decoration: underline;
+}
+
+body.impl-canvas .action-title{
   margin: 10px 0 6px;
   font-size: 14px;
   font-weight: 900;
   color: rgba(0,0,0,.86);
 }
-.impl-canvas .action-desc{
+
+body.impl-canvas .action-desc{
   margin: 0 0 12px;
   color: var(--muted);
   font-size: 13px;
@@ -208,13 +272,14 @@
 }
 
 /* Badges */
-.impl-canvas .badges{
+body.impl-canvas .badges{
   display:flex;
   gap: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
-.impl-canvas .badge{
+
+body.impl-canvas .badge{
   display:inline-flex;
   align-items:center;
   border-radius: 999px;
@@ -224,21 +289,24 @@
   font-weight: 800;
   background: rgba(255,255,255,.9);
 }
-.impl-canvas .badge-urgency-low{ opacity: .92; }
-.impl-canvas .badge-urgency-mid{ border-color: rgba(0,0,0,.22); }
-.impl-canvas .badge-urgency-high{ border-color: rgba(0,0,0,.34); }
 
-/* Bottom actions */
-.impl-canvas .action-card__bottom{
+body.impl-canvas .badge-urgency-high{ border-color: rgba(0,0,0,.34); }
+body.impl-canvas .badge-urgency-mid{ border-color: rgba(0,0,0,.22); }
+body.impl-canvas .badge-urgency-low{ opacity: .92; }
+
+/* Actions */
+body.impl-canvas .action-card__bottom{
   display:flex;
   flex-direction: column;
   gap: 10px;
 }
-.impl-canvas .action-actions{
+
+body.impl-canvas .action-actions{
   display:flex;
   justify-content:flex-start;
 }
-.impl-canvas .btn-action{
+
+body.impl-canvas .btn-action{
   border: 0;
   border-radius: 999px;
   padding: 10px 14px;
@@ -248,25 +316,31 @@
   color: #fff;
   box-shadow: 0 12px 24px rgba(0,0,0,.14);
 }
-.impl-canvas .btn-action:hover{ transform: translateY(-1px); }
-.impl-canvas .btn-action:disabled{
+
+body.impl-canvas .btn-action:hover{
+  transform: translateY(-1px);
+}
+
+body.impl-canvas .btn-action:disabled{
   opacity: .55;
   cursor: not-allowed;
   box-shadow: none;
 }
 
-/* Footer */
-.impl-canvas .state-footer{
+/* Footer “ver más” */
+body.impl-canvas .state-footer{
   display:flex;
   justify-content: center;
   padding-top: 10px;
 }
-.impl-canvas .state-footer--dual{
+
+body.impl-canvas .state-footer--dual{
   justify-content: space-between;
   gap: 10px;
 }
-.impl-canvas .section-more-btn,
-.impl-canvas .section-history-btn{
+
+body.impl-canvas .section-more-btn,
+body.impl-canvas .section-history-btn{
   border-radius: 999px;
   border: 1px solid var(--line2);
   padding: 10px 12px;
@@ -275,24 +349,27 @@
   font-size: 13px;
   text-decoration: none;
   color: rgba(0,0,0,.86);
-  cursor: pointer;
 }
-.impl-canvas .section-more-btn:hover,
-.impl-canvas .section-history-btn:hover{
+
+body.impl-canvas .section-more-btn:hover,
+body.impl-canvas .section-history-btn:hover{
   box-shadow: 0 14px 28px rgba(0,0,0,.08);
   transform: translateY(-1px);
 }
 
-/* Empty */
-.impl-canvas .empty-state{
-  padding: 26px 18px;
+/* Empty state */
+body.impl-canvas .empty-state{
+  padding: 22px 18px;
   color: rgba(0,0,0,.70);
 }
-.impl-canvas .empty-hint{
+
+body.impl-canvas .empty-hint{
   margin-top: 6px;
   color: rgba(0,0,0,.48);
 }
-.impl-canvas .inline-msg--error{
+
+/* Inline error */
+body.impl-canvas .inline-msg--error{
   border: 1px solid rgba(0,0,0,.16);
   background: rgba(0,0,0,.04);
   border-radius: 12px;
@@ -300,8 +377,10 @@
   font-weight: 700;
 }
 
-/* ✅ MODAL */
-.impl-canvas .label-modal{
+/* =========================
+   ✅ MODAL overlay (fix “rota”)
+========================= */
+body.impl-canvas .label-modal{
   position: fixed;
   inset: 0;
   display: none;
@@ -311,9 +390,12 @@
   background: rgba(0,0,0,.48);
   z-index: 9999;
 }
-.impl-canvas .label-modal[aria-hidden="false"]{ display:flex; }
 
-.impl-canvas .label-card{
+body.impl-canvas .label-modal[aria-hidden="false"]{
+  display: flex;
+}
+
+body.impl-canvas .label-card{
   width: min(720px, 100%);
   background: #fff;
   border-radius: 18px;
@@ -321,7 +403,8 @@
   box-shadow: 0 26px 70px rgba(0,0,0,.22);
   overflow: hidden;
 }
-.impl-canvas .label-head{
+
+body.impl-canvas .label-head{
   display:flex;
   align-items:center;
   justify-content: space-between;
@@ -329,7 +412,8 @@
   border-bottom: 1px solid var(--line);
   background: rgba(255,255,255,.92);
 }
-.impl-canvas .label-close{
+
+body.impl-canvas .label-close{
   width: 38px;
   height: 38px;
   border-radius: 999px;
@@ -339,24 +423,25 @@
   font-size: 16px;
   line-height: 1;
 }
-.impl-canvas .label-close:hover{
-  box-shadow: 0 12px 26px rgba(0,0,0,.10);
-  transform: translateY(-1px);
-}
-.impl-canvas .label-body{ padding: 16px; }
 
-.impl-canvas .label-id{
-  font-weight: 900;
+body.impl-canvas .label-body{
+  padding: 16px;
+}
+
+body.impl-canvas .label-id{
+  font-weight: 1000;
   letter-spacing: .2px;
   font-size: 18px;
 }
-.impl-canvas .label-meta{
+
+body.impl-canvas .label-meta{
   margin-top: 4px;
   color: rgba(0,0,0,.56);
   font-weight: 700;
   font-size: 13px;
 }
-.impl-canvas .label-grid{
+
+body.impl-canvas .label-grid{
   display:grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px 14px;
@@ -365,18 +450,23 @@
   border-radius: var(--r16);
   background: rgba(0,0,0,.02);
 }
-.impl-canvas .label-desc{ grid-column: 1 / -1; }
 
-.impl-canvas .label-comments{
+body.impl-canvas .label-desc{
+  grid-column: 1 / -1;
+}
+
+body.impl-canvas .label-comments{
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
 }
-.impl-canvas .label-comments__title{
+
+body.impl-canvas .label-comments__title{
   font-weight: 900;
   margin-bottom: 10px;
 }
-.impl-canvas .comments-list{
+
+body.impl-canvas .comments-list{
   display:flex;
   flex-direction: column;
   gap: 10px;
@@ -384,54 +474,49 @@
   overflow: auto;
   padding-right: 6px;
 }
-.impl-canvas .comment-item{
+
+body.impl-canvas .comment-item{
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 10px 12px;
   background: #fff;
 }
-.impl-canvas .comment-meta{
+
+body.impl-canvas .comment-meta{
   font-weight: 900;
   color: rgba(0,0,0,.66);
   font-size: 12px;
   margin-bottom: 4px;
 }
-.impl-canvas .empty-box{
-  border: 1px dashed rgba(0,0,0,.16);
-  color: rgba(0,0,0,.55);
-  border-radius: 14px;
-  padding: 12px;
-  background: rgba(0,0,0,.02);
-}
 
-.impl-canvas .comments-composer{
+body.impl-canvas .comments-composer{
   margin-top: 10px;
   display:flex;
   flex-direction: column;
   gap: 10px;
 }
-.impl-canvas .comments-textarea,
-.impl-canvas .comments-by{
+
+/* Inputs del modal: no uses el input global del landing */
+body.impl-canvas .comments-textarea,
+body.impl-canvas .comments-by{
   width: 100%;
   border-radius: 14px;
   border: 1px solid var(--line);
   padding: 12px;
+  font: inherit;
   outline: none;
   background: #fff;
 }
-.impl-canvas .comments-textarea:focus,
-.impl-canvas .comments-by:focus{
-  border-color: rgba(0,0,0,.24);
-  box-shadow: 0 0 0 4px rgba(0,0,0,.06);
-}
-.impl-canvas .comments-actions{
+
+body.impl-canvas .comments-actions{
   display:flex;
   gap: 10px;
   align-items: center;
 }
-.impl-canvas .comments-by{ flex: 1; }
 
-.impl-canvas .btn-secondary{
+body.impl-canvas .comments-by{ flex: 1; }
+
+body.impl-canvas .btn-secondary{
   border: 0;
   border-radius: 999px;
   padding: 10px 14px;
@@ -439,9 +524,12 @@
   cursor: pointer;
   background: rgba(0,0,0,.08);
 }
-.impl-canvas .btn-secondary:hover{ background: rgba(0,0,0,.12); }
 
-.impl-canvas .label-actions{
+body.impl-canvas .btn-secondary:hover{
+  background: rgba(0,0,0,.12);
+}
+
+body.impl-canvas .label-actions{
   display:flex;
   justify-content: flex-end;
   gap: 10px;
@@ -450,16 +538,39 @@
   background: rgba(255,255,255,.92);
 }
 
-/* Responsive */
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 980px){
+  body.impl-canvas .board{
+    grid-template-columns: repeat(6, minmax(220px, 1fr));
+    padding: 14px;
+  }
+}
+
+/* Mobile: la clave es que siga siendo “app” y el modal no se rompa */
 @media (max-width: 680px){
-  .impl-canvas .wrap{ padding: 14px; }
-  .impl-canvas .board{ padding: 12px; gap: 12px; }
-  .impl-canvas .label-grid{ grid-template-columns: 1fr; }
-  .impl-canvas .comments-actions{
+  body.impl-canvas .wrap{ padding: 14px; }
+
+  body.impl-canvas .fbos-logo-slot{
+    margin: 14px 14px 0;
+  }
+
+  body.impl-canvas .board{
+    padding: 12px 14px 14px;
+    gap: 12px;
+  }
+
+  body.impl-canvas .label-grid{
+    grid-template-columns: 1fr;
+  }
+
+  body.impl-canvas .comments-actions{
     flex-direction: column;
     align-items: stretch;
   }
-  .impl-canvas .label-actions{
+
+  body.impl-canvas .label-actions{
     flex-direction: column;
     align-items: stretch;
   }
