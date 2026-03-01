@@ -1,15 +1,12 @@
 // implementations/canvas.js — basado en service-desk/canvas.js
-// - Estados backend en Español (mismos del Core API)
-// - Demo: implementations (leads del landing)
+// - Mantiene estados backend en Español
+// - UI en Español (Implementations / Leads)
 // - Usa endpoints /api/demos/implementations/*
 // - Soporta confirm modal (Nuevas->Validadas y En revisión->Cerradas)
-// - Soporta comments (GET /comments + fallback a history, POST /comment + alias /comments)
+// - Soporta comments (POST /comment + fallback history)
 
 const API_BASE = "https://api.fbos.org";
-
-// ✅ toma demo desde el HTML si existe: <div id="actionsList" data-demo="implementations">
-const DEMO_SLUG =
-  document.getElementById("actionsList")?.getAttribute("data-demo")?.trim() || "implementations";
+const DEMO_SLUG = "implementations";
 
 const ENDPOINT_ACTIONS = `${API_BASE}/api/demos/${DEMO_SLUG}/actions?limit=50`;
 const ENDPOINT_CLOSED = `${API_BASE}/api/demos/${DEMO_SLUG}/actions/closed?limit=6`;
@@ -27,7 +24,7 @@ const NEXT_STATE = {
   Cerradas: null,
 };
 
-// Etiquetas UI (Español)
+// Etiquetas UI
 const STATE_LABEL = {
   Nuevas: "Nuevas",
   Validadas: "Validadas",
@@ -37,7 +34,7 @@ const STATE_LABEL = {
   Cerradas: "Cerradas",
 };
 
-// Botones UI (Español)
+// Botones UI
 const ACTION_LABEL = {
   Nuevas: "Validar",
   Validadas: "Asignar",
@@ -53,10 +50,10 @@ const DEFAULT_VISIBLE_PER_STATE = 3;
 const COLLAPSED_VISIBLE_CERRADAS = 3;
 const MAX_VISIBLE_CERRADAS = 6;
 
-// ✅ ajusta estas rutas a tu estructura de carpetas
-const HISTORY_URL = `/${DEMO_SLUG}/history/`;
-const JOB_VIEW_URL = `/${DEMO_SLUG}/job/`; // opcional (si no existe, puedes quitar el botón)
+// 🔁 OJO: ruta de history para implementations
+const HISTORY_URL = "/implementations/history/";
 
+// Cantidad visible por columna
 const visibleByState = Object.fromEntries(FLOW_STATES.map((s) => [s, DEFAULT_VISIBLE_PER_STATE]));
 const isExpandedByState = Object.fromEntries(FLOW_STATES.map((s) => [s, false]));
 let closedCache = [];
@@ -64,7 +61,7 @@ let closedCache = [];
 /* =========================
    Confirm modal (injected)
 ========================= */
-const CONFIRM_TEXT = "¿Estás seguro que deseas mover este ticket?";
+const CONFIRM_TEXT = "¿Estás seguro que deseas mover esta solicitud?";
 const CONFIRM_CANCEL = "Cancelar";
 const CONFIRM_OK = "Confirmar";
 
@@ -237,7 +234,7 @@ function sortNewestFirst(actions) {
       const tb = parseCreatedAt(b?.created_at);
       if (ta !== tb) return tb - ta;
       const na = parseActionNumber(a?.action_id);
-      const nb = parseActionNumber(a?.action_id);
+      const nb = parseActionNumber(b?.action_id);
       return nb - na;
     });
 }
@@ -369,7 +366,7 @@ function sectionHtml(stateName, actions, inlineMsgById) {
       const id = a.action_id || "—";
       const state = a.state || "—";
       const urgency = a.urgency || "—";
-      const title = a.category || "implementations";
+      const title = a.category || "Sin categoría";
       const desc = a.description || "";
 
       const msg = inlineMsgById[id];
@@ -559,8 +556,7 @@ async function updateState(actionId, currentState, nextState) {
 
     if (!res.ok || !data?.success) {
       const msg =
-        data?.error ||
-        (res.status === 409 ? "Transición no permitida" : `HTTP ${res.status}`);
+        data?.error || (res.status === 409 ? "Transición no permitida" : `HTTP ${res.status}`);
       return { ok: false, error: msg };
     }
 
@@ -616,9 +612,7 @@ async function loadActions(opts = {}) {
       ? MAX_VISIBLE_CERRADAS
       : COLLAPSED_VISIBLE_CERRADAS;
 
-    const mainWithoutClosed = mainActions.filter(
-      (a) => String(a?.state || "").trim() !== "Cerradas"
-    );
+    const mainWithoutClosed = mainActions.filter((a) => String(a?.state || "").trim() !== "Cerradas");
     const merged = [...mainWithoutClosed, ...closedActions];
 
     const inline = {};
@@ -654,7 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================
-   Job Modal + Comments (safe no-op if markup not present)
+   Job Modal + Comments
 ========================================================= */
 function $(id) {
   return document.getElementById(id);
@@ -794,7 +788,7 @@ function initCommentComposer() {
     const by = String(byEl?.value || "").trim() || "anonymous";
 
     if (!currentJobIdForComments) {
-      setCommentStatus("error", "No hay ticket seleccionado.");
+      setCommentStatus("error", "No hay solicitud seleccionada.");
       return;
     }
 
@@ -840,35 +834,24 @@ async function showJobDetails(actionId) {
   const elState = $("jobModalState");
   const elCategory = $("jobModalCategory");
   const elUrgency = $("jobModalUrgency");
-  const elDamage = $("jobModalDamage");
-  const elPrice = $("jobModalPrice");
+  const elDamage = $("jobModalDamage"); // Nombre
+  const elPrice = $("jobModalPrice");   // País
   const elDesc = $("jobModalDesc");
   const elCreated = $("jobModalCreated");
   const elUpdated = $("jobModalUpdated");
 
   if (elId) elId.textContent = id;
   if (elState) elState.textContent = "Cargando…";
-  if (elCategory) elCategory.textContent = "—";
-  if (elUrgency) elUrgency.textContent = "—";
-  if (elDamage) elDamage.textContent = "—";
-  if (elPrice) elPrice.textContent = "—";
-  if (elDesc) elDesc.textContent = "—";
-  if (elCreated) elCreated.textContent = "—";
-  if (elUpdated) elUpdated.textContent = "—";
 
   const scanBtn = $("jobOpenScanBtn");
   const apiBtn = $("jobOpenApiBtn");
 
-  // opcional (si no tienes job view, comenta este bloque)
+  // "Abrir landing" — vuelve a la sección explorar
   if (scanBtn) {
-    scanBtn.onclick = () => window.open(`${JOB_VIEW_URL}?id=${encodeURIComponent(id)}`, "_blank");
-    scanBtn.textContent = "Open job view";
+    scanBtn.onclick = () => window.open(`/#explorar`, "_blank");
   }
-
   if (apiBtn) {
-    apiBtn.onclick = () =>
-      window.open(`${API_BASE}/api/demos/${DEMO_SLUG}/actions/${encodeURIComponent(id)}`, "_blank");
-    apiBtn.textContent = "Open API";
+    apiBtn.onclick = () => window.open(`${API_BASE}/api/demos/${DEMO_SLUG}/actions/${encodeURIComponent(id)}`, "_blank");
   }
 
   openJobModal();
@@ -881,22 +864,12 @@ async function showJobDetails(actionId) {
     if (!res.ok || !out?.success || !a) throw new Error(out?.error || "Failed");
 
     const payload = a.payload || {};
-
-    // 🔧 En implementations, payload trae:
-    // customer_name, customer_email, category, description, location + industry/teamSize/pain/requestType/demoVertical
     if (elState) elState.textContent = `Estado: ${a.state || "—"}`;
-    if (elCategory) elCategory.textContent = payload.category || a.category || "—";
-    if (elUrgency) elUrgency.textContent = payload.urgency || a.urgency || "Normal";
-
-    // Reutilizamos campos del modal existente (no cambiamos HTML):
-    // jobModalDamage -> "Contacto"
-    // jobModalPrice  -> "País"
-    if (elDamage) elDamage.textContent = `${payload.customer_name || "—"} · ${payload.customer_email || "—"}`;
-    if (elPrice) elPrice.textContent = payload.location || a.location || "—";
-
-    // description -> ya viene “bonita” desde el worker
-    if (elDesc) elDesc.textContent = payload.description || a.description || "—";
-
+    if (elCategory) elCategory.textContent = payload.category || "—";
+    if (elUrgency) elUrgency.textContent = payload.urgency || "—";
+    if (elDamage) elDamage.textContent = payload.customer_name || payload.name || "—";
+    if (elPrice) elPrice.textContent = payload.location || payload.country || "—";
+    if (elDesc) elDesc.textContent = payload.description || "—";
     if (elCreated) elCreated.textContent = a.created_at || "—";
     if (elUpdated) elUpdated.textContent = a.updated_at || "—";
 
