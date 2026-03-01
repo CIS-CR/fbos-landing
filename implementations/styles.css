@@ -1,0 +1,255 @@
+/* implementations/styles.css — Canvas UI polish (mobile-first) */
+
+/* Base tweaks (keep landing base intact) */
+.wrap {
+  max-width: 980px;
+}
+
+.header {
+  padding-top: 18px;
+  padding-bottom: 12px;
+}
+
+.brand .mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.92);
+}
+
+/* Nav */
+.sd-nav {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0 16px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sd-nav__item {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.75);
+  text-decoration: none;
+  color: rgba(0,0,0,.85);
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sd-nav__item.is-active {
+  background: rgba(0,0,0,.92);
+  border-color: rgba(0,0,0,.92);
+  color: #fff;
+}
+
+/* Card container */
+.card {
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 10px 35px rgba(0,0,0,.06);
+}
+
+/* Canvas area */
+.actions-list {
+  padding: 16px;
+}
+
+/* Toolbar */
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.btn.btn-small,
+.btn {
+  border-radius: 12px;
+}
+
+/* Board layout */
+.board {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+/* Column section */
+.state-section {
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.02);
+  padding: 12px;
+}
+
+.state-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.state-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.state-divider {
+  display: none;
+}
+
+/* Cards */
+.state-cards {
+  display: grid;
+  gap: 10px;
+}
+
+.action-card {
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.05);
+  padding: 12px;
+}
+
+.action-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.action-id {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.action-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  opacity: .92;
+}
+
+.action-desc {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  line-height: 1.35;
+  opacity: .78;
+}
+
+.action-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Badges */
+.badges {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.04);
+}
+
+/* State badge colors (subtle) */
+.badge-state-new { background: rgba(0,0,0,.04); }
+.badge-state-validated { background: rgba(0,0,0,.04); }
+.badge-state-assigned { background: rgba(0,0,0,.04); }
+.badge-state-execution { background: rgba(0,0,0,.04); }
+.badge-state-review { background: rgba(0,0,0,.04); }
+.badge-state-closed { background: rgba(0,0,0,.04); }
+
+/* Action buttons */
+.btn-action,
+.btn-secondary,
+.section-more-btn {
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(0,0,0,.92);
+  color: #fff;
+  padding: 9px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-action:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.section-more-btn {
+  background: rgba(0,0,0,.06);
+  color: rgba(0,0,0,.85);
+}
+
+.section-history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 9px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none;
+  color: rgba(0,0,0,.85);
+  background: rgba(255,255,255,.7);
+}
+
+/* Footer inside section */
+.state-footer {
+  margin-top: 10px;
+}
+
+.state-footer--dual {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Modal polish */
+.label-modal[aria-hidden="false"] {
+  background: rgba(0,0,0,.45);
+}
+
+.label-card {
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.30);
+}
+
+.label-head {
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.label-close {
+  border-radius: 10px;
+}
+
+/* Desktop: 3 columns board */
+@media (min-width: 980px) {
+  .board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .state-section {
+    height: fit
