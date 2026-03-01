@@ -10,8 +10,8 @@
     <!-- Base styles del landing -->
     <link rel="stylesheet" href="/styles.css" />
 
-    <!-- ✅ Styles específicos para implementations -->
-    <link rel="stylesheet" href="/implementations/styles.css" />
+    <!-- ✅ Estilos específicos para este canvas (FIX modal + board UI) -->
+    <link rel="stylesheet" href="/implementations/canvas/styles.css" />
   </head>
 
   <body>
@@ -26,9 +26,9 @@
         </div>
       </header>
 
-      <!-- Nav simple para el landing -->
+      <!-- Nav simple para implementations -->
       <nav class="sd-nav" aria-label="FBOS navegación">
-        <a class="sd-nav__item" href="/">Landing</a>
+        <a class="sd-nav__item" href="/#explorar">Landing</a>
         <a class="sd-nav__item is-active" href="/implementations/canvas/">Canvas</a>
         <a class="sd-nav__item" href="/implementations/history/">Historial</a>
       </nav>
@@ -65,7 +65,6 @@
             <div><strong>Categoría:</strong> <span id="jobModalCategory">—</span></div>
             <div><strong>Urgencia:</strong> <span id="jobModalUrgency">—</span></div>
 
-            <!-- Reusamos ids del canvas existente para no tocar JS de inmediato -->
             <div><strong>Nombre:</strong> <span id="jobModalDamage">—</span></div>
             <div><strong>País:</strong> <span id="jobModalPrice">—</span></div>
 
@@ -110,21 +109,18 @@
         </div>
 
         <div class="label-actions">
-          <!-- En implementations no hay “scan view” real, lo dejamos útil: vuelve al landing -->
           <button type="button" class="btn-secondary" id="jobOpenScanBtn">Abrir landing</button>
           <button type="button" class="btn-secondary" id="jobOpenApiBtn">Open API</button>
         </div>
       </div>
     </div>
 
-    <!-- ✅ Config antes del JS -->
     <script>
       window.FBOS_CANVAS_CONFIG = {
         useMultiDemo: true,
         demos: {
           implementations: {
             demo: "implementations",
-            // Botón "Abrir landing"
             scanPath: "/#explorar",
             states: ["Nuevas", "Validadas", "Asignadas", "En ejecución", "En revisión", "Cerradas"],
             actionLabel: {
