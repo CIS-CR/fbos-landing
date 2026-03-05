@@ -1,27 +1,20 @@
-// flota/canvas.js — basado en implementations/canvas.js (referencia)
-// ✅ Mobile-first (selector por estado)
-// ✅ Desktop Trello-like (columnas)
-// ✅ Estados backend en Español (mismos del core)
-// ✅ Endpoints: https://api.fbos.org/api/demos/flota/*
-// ✅ Avanzar estado (PATCH /state) + confirm modal en transiciones críticas
-// ✅ (Opcional) Job modal + comments si existen en el HTML
+// implementations/canvas.js — basado en service-desk/canvas.js
+// - Mantiene estados backend en Español
+// - UI en Español (Implementations / Leads)
+// - Usa endpoints /api/demos/implementations/*
+// - Soporta confirm modal (Nuevas->Validadas y En revisión->Cerradas)
+// - Soporta comments (POST /comment + fallback history)
 
 const API_BASE = "https://api.fbos.org";
-const DEMO_SLUG = "flota";
+const DEMO_SLUG = "implementations";
 
-// Endpoints (core-engine style)
 const ENDPOINT_ACTIONS = `${API_BASE}/api/demos/${DEMO_SLUG}/actions?limit=50`;
 const ENDPOINT_CLOSED = `${API_BASE}/api/demos/${DEMO_SLUG}/actions/closed?limit=6`;
 
-// Rutas UI
-const FORM_URL = "/flota/";
-const CANVAS_URL = "/flota/canvas/";
-const HISTORY_URL = "/flota/history/";
-
-// Estados backend (deben coincidir con el Worker)
+// Estados backend (deben coincidir con API)
 const FLOW_STATES = ["Nuevas", "Validadas", "Asignadas", "En ejecución", "En revisión", "Cerradas"];
 
-// Transiciones backend (MVP: solo “next state”)
+// Transiciones backend
 const NEXT_STATE = {
   Nuevas: "Validadas",
   Validadas: "Asignadas",
@@ -51,88 +44,22 @@ const ACTION_LABEL = {
   Cerradas: "Cerrada",
 };
 
-const DEFAULT_VISIBLE_PER_STATE = 6;
+const DEFAULT_VISIBLE_PER_STATE = 3;
 
 // Cerradas: memoria operativa
 const COLLAPSED_VISIBLE_CERRADAS = 3;
 const MAX_VISIBLE_CERRADAS = 6;
 
-// Cantidad visible por columna/estado
+// 🔁 OJO: ruta de history para implementations
+const HISTORY_URL = "/implementations/history/";
+
+// Cantidad visible por columna
 const visibleByState = Object.fromEntries(FLOW_STATES.map((s) => [s, DEFAULT_VISIBLE_PER_STATE]));
 const isExpandedByState = Object.fromEntries(FLOW_STATES.map((s) => [s, false]));
 let closedCache = [];
 
-// Mobile state selector
-let activeStateMobile = "Nuevas";
-
 /* =========================
-   Inject minimal CSS (safe)
-========================= */
-function ensureCanvasCss() {
-  if (document.getElementById("fbosCanvasCss")) return;
-
-  const style = document.createElement("style");
-  style.id = "fbosCanvasCss";
-  style.textContent = `
-    /* Layout helpers (no pisa tu styles.css, solo complementa) */
-    .fbos-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-    .fbos-topbar .tabs{display:flex;gap:8px;flex-wrap:wrap}
-    .fbos-tab{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,0,0,.12);padding:8px 12px;border-radius:12px;text-decoration:none;color:inherit;background:#fff}
-    .fbos-tab--active{background:rgba(0,0,0,.06)}
-    .fbos-btn{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:rgba(0,0,0,.90);color:#fff}
-    .fbos-btn:disabled{opacity:.6;cursor:not-allowed}
-    .fbos-hint{font-size:12px;opacity:.7}
-    .fbos-pillbar{display:flex;gap:8px;overflow:auto;padding-bottom:6px;margin:10px 0}
-    .fbos-pill{white-space:nowrap;border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer;font-weight:600}
-    .fbos-pill--active{background:rgba(0,0,0,.06)}
-    .fbos-board{display:grid;gap:12px}
-    .fbos-col{background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:10px}
-    .fbos-col__head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-    .fbos-col__title{font-weight:800}
-    .fbos-cards{display:flex;flex-direction:column;gap:10px}
-    .fbos-card{background:#fff;border:1px solid rgba(0,0,0,.10);border-radius:16px;padding:12px}
-    .fbos-card__top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .fbos-card__id{font-weight:900}
-    .fbos-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-    .fbos-badge{font-size:11px;padding:6px 8px;border-radius:999px;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.10)}
-    .fbos-badge--state{background:rgba(17, 122, 169, .10);border-color:rgba(17, 122, 169, .20)}
-    .fbos-badge--urg-low{background:rgba(0,0,0,.05)}
-    .fbos-badge--urg-mid{background:rgba(250, 173, 20, .12);border-color:rgba(250, 173, 20, .20)}
-    .fbos-badge--urg-high{background:rgba(244, 67, 54, .12);border-color:rgba(244, 67, 54, .20)}
-    .fbos-card__title{margin:10px 0 6px;font-weight:800}
-    .fbos-card__desc{margin:0 0 10px;opacity:.85}
-    .fbos-card__meta{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;opacity:.8}
-    .fbos-card__actions{margin-top:10px}
-    .fbos-card__actions .fbos-btn{width:100%}
-    .fbos-inline-error{margin-top:10px;font-size:12px;color:#b00020}
-    .fbos-empty{padding:18px;border:1px dashed rgba(0,0,0,.25);border-radius:16px;background:rgba(255,255,255,.6)}
-    .fbos-divider{height:1px;background:rgba(0,0,0,.10);margin:12px 0}
-    .fbos-more{width:100%;border:1px solid rgba(0,0,0,.12);border-radius:12px;background:#fff;padding:10px 12px;font-weight:700;cursor:pointer}
-    .fbos-more:disabled{opacity:.6;cursor:not-allowed}
-    .fbos-kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-    .fbos-kpi{font-size:12px;opacity:.8}
-    .fbos-kpi strong{opacity:1}
-
-    /* Responsive behavior:
-       - Mobile: show single column (active state)
-       - Desktop: show Trello-like columns */
-    @media (min-width: 920px){
-      .fbos-pillbar{display:none}
-      .fbos-board{grid-template-columns:repeat(6, minmax(220px, 1fr))}
-      .fbos-col{min-height:240px}
-      .fbos-card__actions .fbos-btn{width:auto}
-      .fbos-card__actions{display:flex;justify-content:flex-end}
-    }
-    @media (max-width: 919px){
-      .fbos-board{grid-template-columns:1fr}
-      .fbos-col[data-state]:not([data-active="true"]){display:none}
-    }
-  `;
-  document.head.appendChild(style);
-}
-
-/* =========================
-   Confirm modal
+   Confirm modal (injected)
 ========================= */
 const CONFIRM_TEXT = "¿Estás seguro que deseas mover esta solicitud?";
 const CONFIRM_CANCEL = "Cancelar";
@@ -179,6 +106,7 @@ function ensureConfirmModal() {
     }
     .fbos-confirm-btn.cancel{ background:rgba(0,0,0,.06); }
     .fbos-confirm-btn.confirm{ background:rgba(0,0,0,.90); color:#fff; }
+    .fbos-confirm-btn:disabled{ opacity:.6; cursor:not-allowed; }
   `;
   document.head.appendChild(style);
 
@@ -261,6 +189,33 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
+function stateClass(state) {
+  const s = String(state || "").toLowerCase();
+  if (s.includes("nuev")) return "badge-state-new";
+  if (s.includes("valid")) return "badge-state-validated";
+  if (s.includes("asign")) return "badge-state-assigned";
+  if (s.includes("ejecu")) return "badge-state-execution";
+  if (s.includes("revisi")) return "badge-state-review";
+  if (s.includes("cerr")) return "badge-state-closed";
+  return "badge-state-default";
+}
+
+function stateBadge(state) {
+  const cls = `badge ${stateClass(state)}`;
+  const label = STATE_LABEL[state] || state || "—";
+  return `<span class="${cls}">${escapeHtml(label)}</span>`;
+}
+
+function urgencyBadge(urgency) {
+  const u = String(urgency || "").toLowerCase();
+  let cls = "badge";
+  if (u.includes("emerg")) cls += " badge-urgency-high";
+  else if (u.includes("urgent")) cls += " badge-urgency-mid";
+  else cls += " badge-urgency-low";
+  const label = urgency || "—";
+  return `<span class="${cls}">${escapeHtml(label)}</span>`;
+}
+
 function parseActionNumber(actionId) {
   const m = String(actionId || "").match(/(\d+)\s*$/);
   return m ? Number(m[1]) : -1;
@@ -284,25 +239,20 @@ function sortNewestFirst(actions) {
     });
 }
 
+function toolbarHtml(btnLabel = "Actualizar", btnDisabled = false) {
+  return `
+    <div class="canvas-toolbar">
+      <div class="canvas-title"></div>
+      <button class="btn btn-small" id="refreshBtn" type="button" ${btnDisabled ? "disabled" : ""}>
+        ${escapeHtml(btnLabel)}
+      </button>
+    </div>
+  `;
+}
+
 function nextStateFor(current) {
   const s = String(current || "").trim();
   return NEXT_STATE[s] || null;
-}
-
-function urgencyClass(urgency) {
-  const u = String(urgency || "").toLowerCase();
-  if (u.includes("crít") || u.includes("critic") || u.includes("emerg")) return "fbos-badge--urg-high";
-  if (u.includes("alta") || u.includes("urgent")) return "fbos-badge--urg-mid";
-  return "fbos-badge--urg-low";
-}
-
-function badgeState(state) {
-  return `<span class="fbos-badge fbos-badge--state">${escapeHtml(STATE_LABEL[state] || state || "—")}</span>`;
-}
-
-function badgeUrgency(urgency) {
-  const cls = urgencyClass(urgency);
-  return `<span class="fbos-badge ${cls}">${escapeHtml(urgency || "—")}</span>`;
 }
 
 function actionButtonHtml(actionId, currentState) {
@@ -312,21 +262,72 @@ function actionButtonHtml(actionId, currentState) {
 
   return `
     <button
-      class="fbos-btn action-next-btn"
+      class="btn-action action-next-btn"
       type="button"
       ${next ? "" : "disabled"}
       data-action-id="${escapeHtml(actionId)}"
       data-current-state="${escapeHtml(s)}"
       data-next-state="${escapeHtml(next || "")}"
     >
-      ${escapeHtml(next ? `Avanzar → ${next}` : label)}
+      ${escapeHtml(label)}
     </button>
   `;
 }
 
-function inlineErrorHtml(text) {
-  if (!text) return "";
-  return `<div class="fbos-inline-error">${escapeHtml(text)}</div>`;
+function inlineMsgHtml(kind, text) {
+  if (kind !== "error" || !text) return "";
+  return `<div class="inline-msg inline-msg--error">${escapeHtml(text)}</div>`;
+}
+
+function cerradasFooterHtml(total) {
+  const expanded = !!isExpandedByState["Cerradas"];
+  const hasMoreThanCollapsed = total > COLLAPSED_VISIBLE_CERRADAS;
+
+  const maxTotal = Math.min(total, MAX_VISIBLE_CERRADAS);
+  const hiddenCount = Math.max(0, maxTotal - COLLAPSED_VISIBLE_CERRADAS);
+
+  const toggleBtn = hasMoreThanCollapsed
+    ? `
+      <button class="section-more-btn" type="button" data-state="Cerradas">
+        ${expanded ? "Ver menos" : `Ver ${hiddenCount} más`}
+      </button>
+    `
+    : "";
+
+  const historyBtn = `
+    <a class="section-history-btn" href="${escapeHtml(HISTORY_URL)}">
+      Ver historial
+    </a>
+  `;
+
+  return `
+    <div class="state-footer state-footer--dual">
+      ${toggleBtn}
+      ${historyBtn}
+    </div>
+  `;
+}
+
+function actionIdHtml(id, state) {
+  const s = String(state || "").trim();
+
+  if (s === "Cerradas") {
+    return `
+      <a class="action-id action-id-link"
+         href="${escapeHtml(HISTORY_URL)}?q=${encodeURIComponent(String(id || ""))}">
+        ${escapeHtml(id)}
+      </a>
+    `;
+  }
+
+  return `
+    <button class="action-id action-id-link js-open-job"
+      type="button"
+      data-action-id="${escapeHtml(id)}"
+      style="background:none;border:0;padding:0;font:inherit;cursor:pointer;text-align:left;">
+      ${escapeHtml(id)}
+    </button>
+  `;
 }
 
 function groupByState(actions) {
@@ -342,206 +343,196 @@ function groupByState(actions) {
   return buckets;
 }
 
-/* =========================
-   UI render
-========================= */
-function rootTemplate() {
-  const root = document.getElementById("canvas-root");
-  if (!root) return;
-
-  root.innerHTML = `
-    <div class="card">
-      <div class="header">
-        <div class="brand">
-          <div class="mark"></div>
-          <div>
-            <h1>FBOS Flota</h1>
-            <p>Canvas — Tablero operativo</p>
-            <div class="fbos-kpis" id="kpis"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fbos-topbar">
-        <div class="tabs">
-          <a class="fbos-tab" href="${escapeHtml(FORM_URL)}">Formulario</a>
-          <a class="fbos-tab fbos-tab--active" href="${escapeHtml(CANVAS_URL)}">Canvas</a>
-          <a class="fbos-tab" href="${escapeHtml(HISTORY_URL)}">Historial</a>
-        </div>
-
-        <button class="fbos-btn" id="refreshBtn" type="button">Actualizar</button>
-      </div>
-
-      <!-- Mobile pills -->
-      <div class="fbos-pillbar" id="pillbar"></div>
-
-      <div id="statusLine" class="fbos-hint"></div>
-      <div class="fbos-divider"></div>
-
-      <div id="board" class="fbos-board"></div>
-    </div>
-  `;
-}
-
-function renderPills(countsByState) {
-  const bar = document.getElementById("pillbar");
-  if (!bar) return;
-
-  bar.innerHTML = FLOW_STATES.map((st) => {
-    const active = st === activeStateMobile;
-    const n = countsByState?.[st] ?? 0;
-    return `
-      <button class="fbos-pill ${active ? "fbos-pill--active" : ""}"
-        type="button"
-        data-state="${escapeHtml(st)}">
-        ${escapeHtml(STATE_LABEL[st] || st)} (${n})
-      </button>
-    `;
-  }).join("");
-}
-
-function renderKPIs(countsByState) {
-  const k = document.getElementById("kpis");
-  if (!k) return;
-
-  const total = FLOW_STATES.reduce((acc, s) => acc + (countsByState[s] || 0), 0);
-  k.innerHTML = `
-    <div class="fbos-kpi"><strong>${total}</strong> total</div>
-    <div class="fbos-kpi"><strong>${countsByState["Nuevas"] || 0}</strong> nuevas</div>
-    <div class="fbos-kpi"><strong>${countsByState["En revisión"] || 0}</strong> en revisión</div>
-    <div class="fbos-kpi"><strong>${countsByState["Cerradas"] || 0}</strong> cerradas</div>
-  `;
-}
-
-function sectionColumnHtml(stateName, actions, inlineMsgById) {
-  const title = STATE_LABEL[stateName] || stateName;
+function sectionHtml(stateName, actions, inlineMsgById) {
   const total = actions.length;
+  const title = STATE_LABEL[stateName] || stateName;
 
-  const isActive = stateName === activeStateMobile;
+  if (total === 0) {
+    return `
+      <section class="state-section state-empty-section" data-state="${escapeHtml(stateName)}">
+        <div class="state-header">
+          <div class="state-title">${escapeHtml(title)} (0)</div>
+        </div>
+        <div class="state-divider"></div>
+      </section>
+    `;
+  }
+
   const visible = Math.max(1, visibleByState[stateName] || DEFAULT_VISIBLE_PER_STATE);
   const shown = actions.slice(0, visible);
-  const remaining = Math.max(0, total - shown.length);
 
-  const cardsHtml = shown
+  const cards = shown
     .map((a) => {
       const id = a.action_id || "—";
-      const st = a.state || "—";
+      const state = a.state || "—";
       const urgency = a.urgency || "—";
-      const category = a.category || "Sin categoría";
+      const title = a.category || "Sin categoría";
       const desc = a.description || "";
 
-      // Flota-specific helpful context (si viene en payload)
-      const name = a.customer_name || "";
-      const placa = a.placa || a.vehicle_plate || "";
-      const location = a.location || "";
-      const created = a.created_at ? new Date(a.created_at).toLocaleString() : "";
-
-      const inline = inlineMsgById?.[id]?.text || "";
+      const msg = inlineMsgById[id];
 
       return `
-        <article class="fbos-card" data-id="${escapeHtml(id)}">
-          <div class="fbos-card__top">
-            <button class="fbos-card__id js-open-job"
-              type="button"
-              data-action-id="${escapeHtml(id)}"
-              style="background:none;border:0;padding:0;font:inherit;cursor:pointer;text-align:left;">
-              ${escapeHtml(id)}
-            </button>
-            <div class="fbos-badges">
-              ${badgeState(st)}
-              ${badgeUrgency(urgency)}
+        <article class="action-card" data-id="${escapeHtml(id)}">
+          <div class="action-card__top">
+            ${actionIdHtml(id, state)}
+            <div class="badges">
+              ${stateBadge(state)}
+              ${urgencyBadge(urgency)}
             </div>
           </div>
 
-          <div class="fbos-card__title">${escapeHtml(category)}</div>
-          ${desc ? `<p class="fbos-card__desc">${escapeHtml(desc)}</p>` : ""}
+          <h3 class="action-title">${escapeHtml(title)}</h3>
+          ${desc ? `<p class="action-desc">${escapeHtml(desc)}</p>` : ""}
 
-          <div class="fbos-card__meta">
-            ${name ? `<span>👤 ${escapeHtml(name)}</span>` : ""}
-            ${placa ? `<span>🚚 ${escapeHtml(placa)}</span>` : ""}
-            ${location ? `<span>📍 ${escapeHtml(location)}</span>` : ""}
-            ${created ? `<span>🕒 ${escapeHtml(created)}</span>` : ""}
-          </div>
-
-          ${inlineErrorHtml(inline)}
-
-          <div class="fbos-card__actions">
-            ${actionButtonHtml(id, st)}
+          <div class="action-card__bottom">
+            ${inlineMsgHtml(msg?.kind, msg?.text)}
+            <div class="action-actions">
+              ${actionButtonHtml(id, state)}
+            </div>
           </div>
         </article>
       `;
     })
     .join("");
 
-  // Footer “ver más”
-  let footerHtml = "";
+  let footer = "";
+
   if (stateName === "Cerradas") {
-    const expanded = !!isExpandedByState["Cerradas"];
-    const hasMoreThanCollapsed = total > COLLAPSED_VISIBLE_CERRADAS;
-
-    const maxTotal = Math.min(total, MAX_VISIBLE_CERRADAS);
-    const hiddenCount = Math.max(0, maxTotal - COLLAPSED_VISIBLE_CERRADAS);
-
-    const toggleBtn = hasMoreThanCollapsed
-      ? `
-        <button class="fbos-more section-more-btn" type="button" data-state="Cerradas">
-          ${expanded ? "Ver menos" : `Ver ${hiddenCount} más`}
-        </button>
-      `
-      : "";
-
-    footerHtml = `
-      <div style="display:flex; gap:10px; align-items:center; justify-content:space-between; margin-top:10px;">
-        <div style="flex:1;">${toggleBtn}</div>
-        <a class="fbos-tab" style="width:auto" href="${escapeHtml(HISTORY_URL)}">Ver historial</a>
-      </div>
-    `;
-  } else if (remaining > 0) {
-    footerHtml = `
-      <button class="fbos-more section-more-btn" type="button" data-state="${escapeHtml(stateName)}">
-        Ver ${remaining} más
-      </button>
-    `;
+    footer = cerradasFooterHtml(total);
+  } else {
+    const remaining = Math.max(0, total - shown.length);
+    if (remaining > 0) {
+      footer = `
+        <div class="state-footer">
+          <button class="section-more-btn" type="button" data-state="${escapeHtml(stateName)}">
+            Ver ${remaining} más
+          </button>
+        </div>
+      `;
+    }
   }
 
   return `
-    <section class="fbos-col" data-state="${escapeHtml(stateName)}" data-active="${isActive ? "true" : "false"}">
-      <div class="fbos-col__head">
-        <div class="fbos-col__title">${escapeHtml(title)} (${total})</div>
-        <div class="fbos-hint">${total ? " " : " "}</div>
+    <section class="state-section" data-state="${escapeHtml(stateName)}">
+      <div class="state-header">
+        <div class="state-title">${escapeHtml(title)} (${total})</div>
       </div>
 
-      <div class="fbos-cards">
-        ${total ? cardsHtml : `<div class="fbos-empty">No hay tickets en este estado.</div>`}
+      <div class="state-cards">
+        ${cards}
       </div>
 
-      ${footerHtml ? `<div style="margin-top:10px;">${footerHtml}</div>` : ""}
+      ${footer}
+      <div class="state-divider"></div>
     </section>
   `;
 }
 
-function renderBoard(actions, inlineMsgById = {}) {
-  const board = document.getElementById("board");
-  const status = document.getElementById("statusLine");
-  if (!board) return;
+function render(actions, inlineMsgById = {}) {
+  const el = document.getElementById("actionsList");
+  if (!el) return;
 
   if (!actions || actions.length === 0) {
-    board.innerHTML = `<div class="fbos-empty">Aún no hay tickets. Crea uno desde el formulario y vuelve.</div>`;
-    if (status) status.textContent = "";
+    el.innerHTML = `
+      ${toolbarHtml("Actualizar")}
+      <div class="empty-state">
+        Aún no hay solicitudes.
+        <div class="empty-hint">Crea una desde el landing y regresa aquí.</div>
+      </div>
+    `;
+    document.getElementById("refreshBtn")?.addEventListener("click", () =>
+      loadActions({ preserveUI: true })
+    );
+    attachHandlers();
     return;
   }
 
   const buckets = groupByState(actions);
-  const counts = Object.fromEntries(FLOW_STATES.map((s) => [s, buckets[s].length]));
+  const sections = FLOW_STATES.map((st) => sectionHtml(st, buckets[st], inlineMsgById)).join("");
 
-  renderPills(counts);
-  renderKPIs(counts);
+  el.innerHTML = `
+    ${toolbarHtml("Actualizar")}
+    <div class="board">
+      ${sections}
+    </div>
+  `;
 
-  board.innerHTML = FLOW_STATES.map((st) => sectionColumnHtml(st, buckets[st], inlineMsgById)).join("");
+  document.getElementById("refreshBtn")?.addEventListener("click", () =>
+    loadActions({ preserveUI: true })
+  );
+  attachHandlers();
+}
 
-  // Status line
-  const total = FLOW_STATES.reduce((acc, s) => acc + (counts[s] || 0), 0);
-  if (status) status.textContent = `✅ ${total} tickets cargados.`;
+/* =========================
+   Events
+========================= */
+let handlersAttached = false;
+
+function attachHandlers() {
+  if (handlersAttached) return;
+  handlersAttached = true;
+
+  const container = document.getElementById("actionsList");
+  if (!container) return;
+
+  container.addEventListener("click", async (e) => {
+    const openJob = e.target?.closest?.(".js-open-job");
+    if (openJob) {
+      const id = openJob.getAttribute("data-action-id");
+      if (id) showJobDetails(id);
+      return;
+    }
+
+    const moreBtn = e.target?.closest?.(".section-more-btn");
+    if (moreBtn) {
+      const st = moreBtn.getAttribute("data-state");
+      if (st && FLOW_STATES.includes(st)) {
+        if (st === "Cerradas") {
+          const expanded = !!isExpandedByState[st];
+          isExpandedByState[st] = !expanded;
+          visibleByState[st] = !expanded ? MAX_VISIBLE_CERRADAS : COLLAPSED_VISIBLE_CERRADAS;
+          await loadActions({ preserveUI: true });
+          return;
+        }
+
+        visibleByState[st] =
+          (visibleByState[st] || DEFAULT_VISIBLE_PER_STATE) + DEFAULT_VISIBLE_PER_STATE;
+        await loadActions({ preserveUI: true });
+      }
+      return;
+    }
+
+    const btn = e.target?.closest?.(".action-next-btn");
+    if (!btn || btn.disabled) return;
+
+    const actionId = btn.getAttribute("data-action-id");
+    const nextState = btn.getAttribute("data-next-state");
+    const currentState = btn.getAttribute("data-current-state");
+
+    if (!actionId || !nextState) return;
+
+    if (needsConfirm(currentState, nextState)) {
+      const ok = await openConfirmModal();
+      if (!ok) return;
+    }
+
+    btn.disabled = true;
+    const prevText = btn.textContent;
+    btn.textContent = "Actualizando…";
+
+    const result = await updateState(actionId, currentState, nextState);
+
+    btn.textContent = prevText;
+
+    if (result.ok) {
+      await loadActions({ preserveUI: true });
+    } else {
+      await loadActions({
+        preserveUI: true,
+        toast: { id: actionId, kind: "error", text: result.error || "No se pudo actualizar" },
+      });
+    }
+  });
 }
 
 /* =========================
@@ -576,12 +567,22 @@ async function updateState(actionId, currentState, nextState) {
 }
 
 async function loadActions(opts = {}) {
-  const { preserveUI = true, toast = null } = opts;
+  const { preserveUI = false, toast = null } = opts;
+
+  const el = document.getElementById("actionsList");
+  if (!el) return;
 
   const btn = document.getElementById("refreshBtn");
+  const prevBtnText = btn ? btn.textContent : "";
+
   if (btn) {
     btn.disabled = true;
     btn.textContent = "Cargando…";
+  } else if (!preserveUI) {
+    el.innerHTML = `
+      ${toolbarHtml("Cargando…", true)}
+      <div class="empty-state">Cargando…</div>
+    `;
   }
 
   try {
@@ -607,7 +608,6 @@ async function loadActions(opts = {}) {
     closedActions = sortNewestFirst(closedActions).slice(0, MAX_VISIBLE_CERRADAS);
     closedCache = closedActions;
 
-    // Cerradas visible count
     visibleByState["Cerradas"] = isExpandedByState["Cerradas"]
       ? MAX_VISIBLE_CERRADAS
       : COLLAPSED_VISIBLE_CERRADAS;
@@ -615,130 +615,40 @@ async function loadActions(opts = {}) {
     const mainWithoutClosed = mainActions.filter((a) => String(a?.state || "").trim() !== "Cerradas");
     const merged = [...mainWithoutClosed, ...closedActions];
 
-    // Inline toast by action id (show below cards)
     const inline = {};
     if (toast?.id && toast?.text) inline[toast.id] = { kind: toast.kind || "error", text: toast.text };
 
-    renderBoard(merged, inline);
+    render(merged, inline);
   } catch (err) {
-    const board = document.getElementById("board");
-    const status = document.getElementById("statusLine");
-    if (status) status.textContent = `❌ ${String(err?.message || err)}`;
-    if (board) {
-      board.innerHTML = `
-        <div class="fbos-empty">
-          No se pudo cargar Canvas.<br/>
-          <span class="fbos-hint">${escapeHtml(String(err?.message || err))}</span>
-        </div>
-      `;
-    }
+    const msg = err?.message ? String(err.message) : "Error desconocido";
+
+    el.innerHTML = `
+      ${toolbarHtml("Reintentar")}
+      <div class="empty-state">
+        No se pudo cargar Canvas.
+        <div class="empty-hint">${escapeHtml(msg)}</div>
+      </div>
+    `;
+
+    document.getElementById("refreshBtn")?.addEventListener("click", () =>
+      loadActions({ preserveUI: false })
+    );
   } finally {
     const btn2 = document.getElementById("refreshBtn");
     if (btn2) {
       btn2.disabled = false;
-      btn2.textContent = "Actualizar";
+      btn2.textContent = prevBtnText && prevBtnText !== "Cargando…" ? prevBtnText : "Actualizar";
     }
   }
 }
 
-/* =========================
-   Events
-========================= */
-let handlersAttached = false;
-
-function attachHandlers() {
-  if (handlersAttached) return;
-  handlersAttached = true;
-
-  document.addEventListener("click", async (e) => {
-    // Refresh
-    const refresh = e.target?.closest?.("#refreshBtn");
-    if (refresh) {
-      await loadActions({ preserveUI: true });
-      return;
-    }
-
-    // Mobile pill (switch state)
-    const pill = e.target?.closest?.(".fbos-pill");
-    if (pill) {
-      const st = pill.getAttribute("data-state");
-      if (st && FLOW_STATES.includes(st)) {
-        activeStateMobile = st;
-        await loadActions({ preserveUI: true });
-      }
-      return;
-    }
-
-    // More per section
-    const moreBtn = e.target?.closest?.(".section-more-btn");
-    if (moreBtn) {
-      const st = moreBtn.getAttribute("data-state");
-      if (st && FLOW_STATES.includes(st)) {
-        if (st === "Cerradas") {
-          const expanded = !!isExpandedByState[st];
-          isExpandedByState[st] = !expanded;
-          visibleByState[st] = !expanded ? MAX_VISIBLE_CERRADAS : COLLAPSED_VISIBLE_CERRADAS;
-          await loadActions({ preserveUI: true });
-          return;
-        }
-
-        visibleByState[st] = (visibleByState[st] || DEFAULT_VISIBLE_PER_STATE) + DEFAULT_VISIBLE_PER_STATE;
-        await loadActions({ preserveUI: true });
-      }
-      return;
-    }
-
-    // Advance state
-    const btn = e.target?.closest?.(".action-next-btn");
-    if (btn) {
-      if (btn.disabled) return;
-
-      const actionId = btn.getAttribute("data-action-id");
-      const nextState = btn.getAttribute("data-next-state");
-      const currentState = btn.getAttribute("data-current-state");
-
-      if (!actionId || !nextState) return;
-
-      if (needsConfirm(currentState, nextState)) {
-        const ok = await openConfirmModal();
-        if (!ok) return;
-      }
-
-      btn.disabled = true;
-      const prevText = btn.textContent;
-      btn.textContent = "Actualizando…";
-
-      const result = await updateState(actionId, currentState, nextState);
-
-      btn.textContent = prevText;
-
-      if (result.ok) {
-        await loadActions({ preserveUI: true });
-      } else {
-        await loadActions({
-          preserveUI: true,
-          toast: { id: actionId, kind: "error", text: result.error || "No se pudo actualizar" },
-        });
-      }
-      return;
-    }
-
-    // Open job details (if modal exists)
-    const openJob = e.target?.closest?.(".js-open-job");
-    if (openJob) {
-      const id = openJob.getAttribute("data-action-id");
-      if (id) showJobDetails(id);
-      return;
-    }
-  });
-}
+document.addEventListener("DOMContentLoaded", () => {
+  ensureConfirmModal();
+  loadActions({ preserveUI: false });
+});
 
 /* =========================================================
-   (Opcional) Job Modal + Comments
-   - Solo funciona si tu HTML tiene estos IDs:
-     jobModal, jobCloseBtn, jobModalId, jobModalState, jobModalCategory, jobModalUrgency,
-     jobModalDesc, jobModalCreated, jobModalUpdated, jobCommentsList, jobCommentText,
-     jobCommentBy, jobCommentSendBtn, jobCommentStatus, jobOpenApiBtn
+   Job Modal + Comments
 ========================================================= */
 function $(id) {
   return document.getElementById(id);
@@ -779,7 +689,7 @@ function renderComments(comments) {
 
   const arr = Array.isArray(comments) ? comments : [];
   if (!arr.length) {
-    list.innerHTML = `<div class="fbos-empty">Aún no hay comentarios.</div>`;
+    list.innerHTML = `<div class="empty-box">Aún no hay comentarios.</div>`;
     return;
   }
 
@@ -789,8 +699,8 @@ function renderComments(comments) {
       const at = c?.ts || "";
       const text = c?.text || "";
       return `
-        <div class="fbos-card" style="border-radius:12px;">
-          <div class="fbos-hint">${escapeHtml(by)}${at ? ` · ${escapeHtml(at)}` : ""}</div>
+        <div class="comment-item">
+          <div class="comment-meta">${escapeHtml(by)}${at ? ` · ${escapeHtml(at)}` : ""}</div>
           <div>${escapeHtml(text)}</div>
         </div>
       `;
@@ -856,12 +766,13 @@ function setCommentStatus(kind, msg) {
   if (!msg) {
     el.style.display = "none";
     el.textContent = "";
+    el.className = "inline-msg";
     return;
   }
 
   el.style.display = "block";
   el.textContent = msg;
-  el.style.color = kind === "error" ? "#b00020" : "inherit";
+  el.className = kind === "error" ? "inline-msg inline-msg--error" : "inline-msg";
 }
 
 function initCommentComposer() {
@@ -877,7 +788,7 @@ function initCommentComposer() {
     const by = String(byEl?.value || "").trim() || "anonymous";
 
     if (!currentJobIdForComments) {
-      setCommentStatus("error", "No hay ticket seleccionado.");
+      setCommentStatus("error", "No hay solicitud seleccionada.");
       return;
     }
 
@@ -923,6 +834,8 @@ async function showJobDetails(actionId) {
   const elState = $("jobModalState");
   const elCategory = $("jobModalCategory");
   const elUrgency = $("jobModalUrgency");
+  const elDamage = $("jobModalDamage"); // Nombre
+  const elPrice = $("jobModalPrice");   // País
   const elDesc = $("jobModalDesc");
   const elCreated = $("jobModalCreated");
   const elUpdated = $("jobModalUpdated");
@@ -930,9 +843,16 @@ async function showJobDetails(actionId) {
   if (elId) elId.textContent = id;
   if (elState) elState.textContent = "Cargando…";
 
+  const scanBtn = $("jobOpenScanBtn");
   const apiBtn = $("jobOpenApiBtn");
-  if (apiBtn) apiBtn.onclick = () =>
-    window.open(`${API_BASE}/api/demos/${DEMO_SLUG}/actions/${encodeURIComponent(id)}`, "_blank");
+
+  // "Abrir landing" — vuelve a la sección explorar
+  if (scanBtn) {
+    scanBtn.onclick = () => window.open(`/#explorar`, "_blank");
+  }
+  if (apiBtn) {
+    apiBtn.onclick = () => window.open(`${API_BASE}/api/demos/${DEMO_SLUG}/actions/${encodeURIComponent(id)}`, "_blank");
+  }
 
   openJobModal();
 
@@ -947,6 +867,8 @@ async function showJobDetails(actionId) {
     if (elState) elState.textContent = `Estado: ${a.state || "—"}`;
     if (elCategory) elCategory.textContent = payload.category || "—";
     if (elUrgency) elUrgency.textContent = payload.urgency || "—";
+    if (elDamage) elDamage.textContent = payload.customer_name || payload.name || "—";
+    if (elPrice) elPrice.textContent = payload.location || payload.country || "—";
     if (elDesc) elDesc.textContent = payload.description || "—";
     if (elCreated) elCreated.textContent = a.created_at || "—";
     if (elUpdated) elUpdated.textContent = a.updated_at || "—";
@@ -955,7 +877,7 @@ async function showJobDetails(actionId) {
     renderComments(comments);
     fetchComments(id).then(renderComments).catch(() => {});
   } catch {
-    if (elState) elState.textContent = "Error cargando ticket";
+    if (elState) elState.textContent = "Error cargando solicitud";
     renderComments([]);
   }
 }
@@ -978,14 +900,3 @@ async function showJobDetails(actionId) {
 
   initCommentComposer();
 })();
-
-/* =========================
-   Boot
-========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  ensureCanvasCss();
-  ensureConfirmModal();
-  rootTemplate();
-  attachHandlers();
-  loadActions({ preserveUI: false });
-});
