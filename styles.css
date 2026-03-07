@@ -69,7 +69,7 @@ body {
 .hero-split {
   display: grid;
   gap: 26px;
-  align-items: center;
+  align-items: start;
 }
 
 .hero-copy {
