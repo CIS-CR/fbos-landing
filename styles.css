@@ -43,7 +43,7 @@ body {
 .header-inner {
   display: flex;
   align-items: center;
-  min-height: 64px;
+  min-height: 78px;
   padding-top: 0;
   padding-bottom: 0;
 }
