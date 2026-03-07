@@ -13,13 +13,29 @@
 
     <meta name="theme-color" content="#0b0b0b" />
 
-    <!-- Open Graph (share) -->
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph -->
     <meta property="og:title" content="FBOS — Orden Operativo Simple" />
     <meta
       property="og:description"
       content="Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fbos-landing.pages.dev/" />
+    <meta property="og:image" content="https://fbos-landing.pages.dev/assets/og-fbos.jpg" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FBOS — Orden Operativo Simple" />
+    <meta
+      name="twitter:description"
+      content="Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar."
+    />
+    <meta name="twitter:image" content="https://fbos-landing.pages.dev/assets/og-fbos.jpg" />
 
     <link rel="stylesheet" href="/styles.css" />
     <script defer src="/config.js"></script>
@@ -27,6 +43,14 @@
   </head>
 
   <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a href="/" class="brand" aria-label="FBOS inicio">
+          <img src="/assets/fbos-logo.svg" alt="FBOS" class="brand-mark" />
+        </a>
+      </div>
+    </header>
+
     <main class="wrap">
       <!-- HERO -->
       <section class="hero hero-split">
@@ -34,7 +58,7 @@
           <h1>Ordena tu operación sin software complicado</h1>
 
           <p class="lead">
-            Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar.
+            Convierte solicitudes dispersas en acciones claras, visibles y fáciles de cerrar.
             Sin sistemas pesados. Sin procesos confusos.
           </p>
 
@@ -71,7 +95,7 @@
         </div>
 
         <p>
-          Se atienden en el momento…
+          Se atienden en el momento...
           y después se olvidan.
         </p>
 
@@ -105,10 +129,10 @@
           </div>
 
           <div class="card">
-            <h3>Costo bajo por defecto</h3>
+            <h3>Software económico y de baja latencia</h3>
             <p>
-              Sin servidores dedicados. Sin mantenimiento constante.
-              Pagas según uso, no por complejidad.
+              Infraestructura ligera, distribuida y sin peso innecesario.
+              Funciona rápido, cuesta poco y escala sin complejidad.
             </p>
           </div>
 
@@ -216,7 +240,6 @@
           </p>
 
           <form id="leadForm" class="form">
-            <!-- ✅ Microajustes: hidden fields canon -->
             <input type="hidden" name="category" value="implementations" />
             <input type="hidden" id="requestType" name="requestType" value="evaluation" />
             <input type="hidden" id="demoVertical" name="demoVertical" value="" />
@@ -271,7 +294,7 @@
         </div>
       </section>
 
-      <footer class="foot">FBOS v1.0 — Staging</footer>
+      <footer class="foot">FBOS — Flow-Based Operational System</footer>
     </main>
   </body>
 </html>
