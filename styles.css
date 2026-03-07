@@ -1,6 +1,6 @@
 /* ================================
    FBOS Landing v1.0
-   Mobile-first · minimal · Apple-like rhythm
+   Mobile-first · minimal · refined
 ================================ */
 
 /* Reset básico */
@@ -8,55 +8,131 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #ffffff;
   color: #111111;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* Contenedor principal */
 .wrap {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 28px 18px 60px;
+  padding: 28px 20px 72px;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand-mark {
+  height: 24px;
+  width: auto;
+  display: block;
 }
 
 /* ---------------- HERO ---------------- */
 
 .hero {
-  padding: 44px 0 10px;
+  padding: 52px 0 8px;
+}
+
+.hero-split {
+  display: grid;
+  gap: 26px;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 62ch;
 }
 
 h1 {
-  font-size: 34px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin: 0 0 14px;
+  font-size: clamp(2.3rem, 5vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  margin: 0 0 18px;
+  max-width: 11ch;
 }
 
 .lead {
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.65;
   margin: 0;
-  max-width: 62ch;
-  opacity: 0.9;
+  max-width: 60ch;
+  opacity: 0.88;
 }
 
-/* ---------------- SECCIONES (Apple-like) ---------------- */
+.hero-note {
+  margin: 18px 0 0;
+  font-size: 13px;
+  opacity: 0.56;
+  letter-spacing: 0.01em;
+}
 
-/* Aire + ritmo (sin líneas divisorias) */
+.hero-media {
+  display: flex;
+  justify-content: center;
+  border-radius: 28px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.015));
+  padding: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hero-mock {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  display: block;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  background: #fff;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------------- SECCIONES ---------------- */
+
 .section {
-  margin-top: 64px;
+  margin-top: 80px;
   padding-top: 0;
   border-top: 0;
 }
 
-/* Contraste moderno: bloques alternos sutiles */
 .section:nth-of-type(even) {
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 18px;
-  padding: 22px 16px;
+  background: rgba(0, 0, 0, 0.024);
+  border-radius: 24px;
+  padding: 28px 22px;
 }
 
 .section:nth-of-type(odd) {
@@ -64,15 +140,16 @@ h1 {
 }
 
 h2 {
-  font-size: 18px;
-  margin: 0 0 16px;
-  letter-spacing: -0.02em;
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0 0 18px;
+  letter-spacing: -0.03em;
 }
 
 h3 {
-  font-size: 15px;
-  margin: 0 0 8px;
-  letter-spacing: -0.01em;
+  font-size: 16px;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
 }
 
 .section p {
@@ -86,14 +163,15 @@ h3 {
 .grid {
   display: grid;
   gap: 14px;
-  grid-template-columns: 1fr; /* mobile-first */
+  grid-template-columns: 1fr;
 }
 
 .card {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 14px;
-  padding: 16px;
-  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 18px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
 /* ---------------- BOTONES ---------------- */
@@ -102,37 +180,46 @@ h3 {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  border-radius: 12px; /* más “system” */
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #ffffff;
-  color: #111111;
+  min-height: 44px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .btn:hover {
-  border-color: rgba(0, 0, 0, 0.35);
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
 .btn.ghost {
   background: transparent;
+  color: #111111;
   border-color: rgba(0, 0, 0, 0.14);
 }
 
 .btn.ghost:hover {
-  background: #111111;
-  color: #ffffff;
-  border-color: #111111;
+  background: rgba(0, 0, 0, 0.04);
+  color: #111111;
+  border-color: rgba(0, 0, 0, 0.22);
 }
 
 /* ---------------- FORMULARIO ---------------- */
@@ -141,18 +228,28 @@ h3 {
   display: grid;
   gap: 12px;
   max-width: 520px;
-  margin: 0 auto; /* ✅ centra el bloque del formulario */
+  margin: 0 auto;
 }
 
 input,
 textarea,
 select {
-  padding: 10px 12px;
-  border-radius: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.14);
   font: inherit;
   width: 100%;
   background: #fff;
+  color: #111111;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
 textarea {
@@ -165,7 +262,7 @@ textarea {
   min-height: 16px;
 }
 
-/* ---------------- Micro-tipografía: Problema ---------------- */
+/* ---------------- PROBLEMA ---------------- */
 
 #problema p {
   margin: 0 0 14px;
@@ -176,165 +273,6 @@ textarea {
 #problema p:last-child {
   margin-bottom: 0;
 }
-
-/* ---------------- FLUJO (Cómo funciona) ---------------- */
-
-.flow {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 10px;
-}
-
-.step {
-  flex: 1 1 180px;
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  border-radius: 12px;
-  padding: 14px;
-  min-width: 160px;
-  background: #fff;
-}
-
-.step strong {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-}
-
-.step .desc {
-  display: block;
-  margin-top: 6px;
-  font-size: 13px;
-  opacity: 0.75;
-}
-
-.kicker {
-  display: inline-flex;
-  width: 22px;
-  height: 22px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #111111;
-  border-radius: 999px;
-  font-size: 12px;
-}
-
-.arrow {
-  display: none; /* oculto en mobile */
-  align-self: center;
-  opacity: 0.5;
-}
-
-/* ---------------- MANIFIESTO ---------------- */
-
-#manifiesto blockquote {
-  border-left: 2px solid rgba(0, 0, 0, 0.16);
-  padding-left: 14px;
-  margin-top: 10px;
-  margin-left: 0;
-  margin-right: 0;
-  line-height: 1.6;
-  font-size: 16px;
-  opacity: 0.88;
-}
-
-/* ---------------- INFRA (list cards) ---------------- */
-
-.list {
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-  max-width: 560px;
-}
-
-.item {
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 14px;
-  opacity: 0.92;
-  background: #fff;
-}
-
-/* ---------------- CTA final ---------------- */
-
-#cta-final .fine {
-  margin: 6px 0 14px;
-  max-width: 60ch;
-}
-
-#cta-final .cta-row {
-  margin-top: 0;
-}
-
-/* ---------------- Explorar – centrado visual ---------------- */
-
-#explorar {
-  text-align: center; /* ✅ centra el título y texto de la sección */
-}
-
-#explorar .form {
-  text-align: left; /* ✅ mantiene inputs alineados correctamente */
-  padding: 18px; /* ✅ estilo card */
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #ffffff;
-}
-
-#explorar .btn {
-  width: 100%; /* ✅ mejor conversión en mobile */
-}
-
-/* ---------------- FOOTER ---------------- */
-
-.foot {
-  margin-top: 96px;
-  padding-top: 22px;
-  font-size: 12px;
-  opacity: 0.55;
-}
-
-/* ================================
-   Desktop refinements
-================================ */
-
-@media (min-width: 820px) {
-  .hero {
-    padding-top: 64px;
-  }
-
-  h1 {
-    font-size: 42px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  /* Ventajas en 3 columnas */
-  #ventajas .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  /* Flujo horizontal + arrows visibles */
-  .flow {
-    flex-wrap: nowrap;
-  }
-
-  .arrow {
-    display: block;
-  }
-
-  /* Bloques alternos con padding un poco mayor */
-  .section:nth-of-type(even) {
-    padding: 28px 22px;
-  }
-}
-
-/* =================================
-   Problema – visual structure
-================================= */
 
 #problema .intro {
   margin-bottom: 16px;
@@ -361,9 +299,7 @@ textarea {
   margin-top: 10px;
 }
 
-/* =================================
-   ¿Qué hace FBOS? – minimal block
-================================= */
+/* ---------------- ¿QUÉ HACE FBOS? ---------------- */
 
 #que-hace .lead-strong {
   font-size: 18px;
@@ -377,69 +313,157 @@ textarea {
   opacity: 0.6;
   letter-spacing: 0.02em;
 }
-/* =================================
-   HERO v2 — split layout + mock
-================================= */
 
-.hero-split {
-  display: grid;
-  gap: 18px;
-  align-items: center;
+/* ---------------- FLUJO ---------------- */
+
+.flow {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
 }
 
-.hero-copy {
-  max-width: 62ch;
-}
-
-.hero-note {
-  margin: 14px 0 0;
-  font-size: 13px;
-  opacity: 0.65;
-}
-
-/* Mock container (mobile-first: stack) */
-.hero-media {
-  border-radius: 18px;
-  background: rgba(0, 0, 0, 0.02);
+.step {
+  flex: 1 1 180px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
   padding: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-width: 160px;
+  background: #fff;
 }
 
-/* Image styling */
-.hero-mock {
-  width: 100%;
-  height: auto;
+.step strong {
   display: block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.step .desc {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.kicker {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #111111;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.arrow {
+  display: none;
+  align-self: center;
+  opacity: 0.36;
+  font-size: 20px;
+}
+
+/* ---------------- MANIFIESTO ---------------- */
+
+#manifiesto blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.16);
+  padding-left: 14px;
+  margin-top: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  line-height: 1.6;
+  font-size: 16px;
+  opacity: 0.88;
+}
+
+/* ---------------- INFRA ---------------- */
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  max-width: 560px;
+}
+
+.item {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  padding: 13px 15px;
+  font-size: 14px;
+  opacity: 0.92;
+  background: #fff;
+}
+
+/* ---------------- EXPLORAR ---------------- */
+
+#explorar {
+  text-align: center;
+}
+
+#explorar .form {
+  text-align: left;
+  padding: 18px;
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
+  background: #ffffff;
 }
 
-/* Desktop: 2 columns */
-@media (min-width: 820px) {
-  .hero-split {
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 26px;
-  }
-
-  .hero-media {
-    padding: 18px;
-  }
-   .hero-media {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-mock {
+#explorar .btn {
   width: 100%;
-  max-width: 360px;      /* tamaño tipo teléfono */
-  height: auto;
-  display: block;
-  border-radius: 28px;   /* look de device */
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.08),
-    0 6px 18px rgba(0, 0, 0, 0.06);
 }
+
+/* ---------------- CTA FINAL ---------------- */
+
+#cta-final .fine {
+  margin: 6px 0 14px;
+  max-width: 60ch;
+}
+
+#cta-final .cta-row {
+  margin-top: 0;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.foot {
+  margin-top: 96px;
+  padding-top: 22px;
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+/* ---------------- DESKTOP ---------------- */
+
+@media (min-width: 820px) {
+  .hero {
+    padding-top: 76px;
+  }
+
+  .hero-split {
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 42px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  #ventajas .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .flow {
+    flex-wrap: nowrap;
+    gap: 14px;
+  }
+
+  .arrow {
+    display: block;
+  }
+
+  .section:nth-of-type(even) {
+    padding: 32px 28px;
+  }
 }
