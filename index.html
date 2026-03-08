@@ -1,4 +1,4 @@
-<!-- FBOS Landing v1.0 -->
+<!-- FBOS Landing v1.1 -->
 <!doctype html>
 <html lang="es">
   <head>
@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#0b0b0b" />
 
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="FBOS — Orden Operativo Simple" />
@@ -23,6 +23,7 @@
       content="Convierte cualquier solicitud en una acción clara, visible y fácil de cerrar."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FBOS" />
     <meta property="og:url" content="https://fbos-landing.pages.dev/" />
     <meta property="og:image" content="https://fbos-landing.pages.dev/assets/og-fbos.jpg" />
 
@@ -43,17 +44,26 @@
   <body>
     <header class="site-header">
       <div class="wrap header-inner">
-        <a href="/" class="brand" aria-label="FBOS inicio">
+        <a href="#top" class="brand" aria-label="FBOS inicio">
           <img src="/assets/fbos-logo.png" alt="FBOS" class="brand-mark" />
         </a>
+
+        <nav class="site-nav" aria-label="Navegación principal">
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#verticales">Verticales</a>
+          <a href="#infra">Infraestructura</a>
+          <a href="#explorar">Explorar</a>
+        </nav>
       </div>
     </header>
 
-    <main class="wrap">
+    <main id="top" class="wrap">
       <!-- HERO -->
-      <section class="hero hero-split">
+      <section class="hero hero-split" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <h1>Ordena tu operación sin software complicado</h1>
+          <p class="eyebrow">Framework operativo ultra ligero</p>
+
+          <h1 id="hero-title">Ordena tu operación sin software complicado</h1>
 
           <p class="lead">
             Convierte solicitudes dispersas en acciones claras, visibles y fáciles de cerrar.
@@ -80,8 +90,8 @@
       </section>
 
       <!-- PROBLEMA -->
-      <section class="section" id="problema">
-        <h2>El problema</h2>
+      <section class="section" id="problema" aria-labelledby="problema-title">
+        <h2 id="problema-title">El problema</h2>
 
         <p class="intro">Las solicitudes llegan por todos lados:</p>
 
@@ -103,8 +113,8 @@
       </section>
 
       <!-- ¿QUÉ HACE FBOS? -->
-      <section class="section" id="que-hace">
-        <h2>¿Qué hace FBOS?</h2>
+      <section class="section" id="que-hace" aria-labelledby="que-hace-title">
+        <h2 id="que-hace-title">¿Qué hace FBOS?</h2>
 
         <p class="lead-strong">
           Toma cada solicitud y la convierte en una acción visible hasta que se complete.
@@ -114,39 +124,39 @@
       </section>
 
       <!-- 3 VENTAJAS -->
-      <section class="section" id="ventajas">
-        <h2>3 ventajas principales</h2>
+      <section class="section" id="ventajas" aria-labelledby="ventajas-title">
+        <h2 id="ventajas-title">3 ventajas principales</h2>
 
         <div class="grid">
-          <div class="card">
+          <article class="card">
             <h3>Framework ultra ligero</h3>
             <p>
               No es un ERP. No es un CRM.
               Es una estructura mínima para convertir solicitudes en acciones claras.
             </p>
-          </div>
+          </article>
 
-          <div class="card">
+          <article class="card">
             <h3>Software económico y de baja latencia</h3>
             <p>
               Infraestructura ligera, distribuida y sin peso innecesario.
               Funciona rápido, cuesta poco y escala sin complejidad.
             </p>
-          </div>
+          </article>
 
-          <div class="card">
+          <article class="card">
             <h3>Escalable a 10 años</h3>
             <p>
               Modular y portable.
               Permite crecer por verticales sin rediseñar el sistema.
             </p>
-          </div>
+          </article>
         </div>
       </section>
 
       <!-- CÓMO FUNCIONA -->
-      <section class="section" id="como-funciona">
-        <h2>Cómo funciona</h2>
+      <section class="section" id="como-funciona" aria-labelledby="como-funciona-title">
+        <h2 id="como-funciona-title">Cómo funciona</h2>
 
         <p>FBOS toma cualquier solicitud y la convierte en un flujo visible hasta su cierre.</p>
 
@@ -157,7 +167,7 @@
             <span class="desc">Solicitud recibida</span>
           </div>
 
-          <div class="arrow">→</div>
+          <div class="arrow" aria-hidden="true">→</div>
 
           <div class="step" role="listitem">
             <span class="kicker">2</span>
@@ -165,7 +175,7 @@
             <span class="desc">Se crea un ítem único</span>
           </div>
 
-          <div class="arrow">→</div>
+          <div class="arrow" aria-hidden="true">→</div>
 
           <div class="step" role="listitem">
             <span class="kicker">3</span>
@@ -173,7 +183,7 @@
             <span class="desc">Pasa por estados visibles</span>
           </div>
 
-          <div class="arrow">→</div>
+          <div class="arrow" aria-hidden="true">→</div>
 
           <div class="step" role="listitem">
             <span class="kicker">4</span>
@@ -188,11 +198,11 @@
       </section>
 
       <!-- VERTICALES ACTIVAS -->
-      <section class="section" id="verticales">
-        <h2>Verticales activas</h2>
+      <section class="section" id="verticales" aria-labelledby="verticales-title">
+        <h2 id="verticales-title">Verticales activas</h2>
 
         <div class="grid">
-          <div class="card">
+          <article class="card">
             <h3>Ding Repairs — Gold Coast</h3>
             <p>Gestión simple de trabajos de reparación.</p>
             <a
@@ -204,9 +214,9 @@
             >
               Solicitar demo
             </a>
-          </div>
+          </article>
 
-          <div class="card">
+          <article class="card">
             <h3>Service Desk — Panamá</h3>
             <p>Gestión de solicitudes para administración de propiedades.</p>
             <a
@@ -218,7 +228,7 @@
             >
               Solicitar demo
             </a>
-          </div>
+          </article>
         </div>
 
         <p class="fine">
@@ -227,8 +237,8 @@
       </section>
 
       <!-- EXPLORAR -->
-      <section class="section" id="explorar">
-        <h2>Explorar FBOS en tu industria</h2>
+      <section class="section" id="explorar" aria-labelledby="explorar-title">
+        <h2 id="explorar-title">Explorar FBOS en tu industria</h2>
 
         <div class="card">
           <h3>Evaluación personalizada</h3>
@@ -261,8 +271,8 @@
       </section>
 
       <!-- MANIFIESTO -->
-      <section class="section" id="manifiesto">
-        <h2>Manifiesto</h2>
+      <section class="section" id="manifiesto" aria-labelledby="manifiesto-title">
+        <h2 id="manifiesto-title">Manifiesto</h2>
         <blockquote>
           Acción antes que dato.<br />
           Flujo antes que complejidad.<br />
@@ -271,8 +281,8 @@
       </section>
 
       <!-- INFRA -->
-      <section class="section" id="infra">
-        <h2>Infraestructura moderna</h2>
+      <section class="section" id="infra" aria-labelledby="infra-title">
+        <h2 id="infra-title">Infraestructura moderna</h2>
 
         <div class="list">
           <div class="item">Cloudflare Pages + Workers</div>
@@ -283,8 +293,8 @@
       </section>
 
       <!-- CTA FINAL -->
-      <section class="section" id="cta-final">
-        <h2>Orden operativo sin peso innecesario</h2>
+      <section class="section" id="cta-final" aria-labelledby="cta-final-title">
+        <h2 id="cta-final-title">Orden operativo sin peso innecesario</h2>
 
         <div class="cta-row">
           <a class="btn" href="#explorar">Evaluar mi caso</a>
@@ -292,7 +302,10 @@
         </div>
       </section>
 
-      <footer class="foot">FBOS — Flow-Based Operational System</footer>
+      <footer class="foot">
+        <p>FBOS — Flow-Based Operational System</p>
+        <p><a href="mailto:hello@fbos.org">hello@fbos.org</a></p>
+      </footer>
     </main>
   </body>
 </html>
