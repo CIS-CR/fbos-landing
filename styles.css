@@ -28,34 +28,28 @@ body {
   padding: 12px 20px 72px;
 }
 
-/* ---------------- HEADER ---------------- */
+/* ================================
+   Header
+================================ */
 
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
-  min-height: 78px;
-  padding-top: 0;
-  padding-bottom: 0;
+  height: 64px;
 }
 
 .brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  text-decoration: none;
 }
 
 .brand-mark {
-  height: 57px;
+  height: 36px;
   width: auto;
   display: block;
 }
