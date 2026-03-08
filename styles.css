@@ -1,7 +1,17 @@
 /* ================================
-   FBOS Landing v1.0
+   FBOS Landing v1.1
    Mobile-first · minimal · refined
 ================================ */
+
+:root {
+  --ink: #111111;
+  --bg: #ffffff;
+
+  /* FBOS accent */
+  --accent: #aec3ea;
+  --accent-strong: #8ea9de;
+  --accent-soft: #eef3fb;
+}
 
 /* Reset básico */
 * {
@@ -15,8 +25,8 @@ html {
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #ffffff;
-  color: #111111;
+  background: var(--bg);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -33,31 +43,58 @@ body {
 ================================ */
 
 .site-header {
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 64px;
 }
 
 .brand {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .brand-mark {
-  height: 36px;
+  height: 28px;
   width: auto;
   display: block;
+}
+
+.site-nav {
+  display: none;
+  gap: 24px;
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-size: 14px;
+  color: var(--ink);
+  opacity: 0.72;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.site-nav a:hover {
+  opacity: 1;
+  color: var(--accent-strong);
 }
 
 /* ---------------- HERO ---------------- */
 
 .hero {
-  padding: 24px 0 8px;
+  padding: 32px 0 12px;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(174, 195, 234, 0.25), transparent 55%);
 }
 
 .hero-split {
@@ -68,6 +105,15 @@ body {
 
 .hero-copy {
   max-width: 62ch;
+}
+
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-strong);
+  margin: 0 0 10px;
+  font-weight: 600;
 }
 
 h1 {
@@ -97,7 +143,7 @@ h1 {
   display: flex;
   justify-content: center;
   border-radius: 28px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.015));
+  background: linear-gradient(to bottom, rgba(174, 195, 234, 0.18), rgba(0, 0, 0, 0.015));
   padding: 18px;
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -124,7 +170,7 @@ h1 {
 }
 
 .section:nth-of-type(even) {
-  background: rgba(0, 0, 0, 0.024);
+  background: var(--accent-soft);
   border-radius: 24px;
   padding: 28px 22px;
 }
@@ -161,11 +207,11 @@ h3 {
 }
 
 .card {
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 18px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
 }
 
 /* ---------------- BOTONES ---------------- */
@@ -184,8 +230,8 @@ h3 {
   min-height: 44px;
   padding: 12px 18px;
   border-radius: 999px;
-  border: 1px solid #111111;
-  background: #111111;
+  border: 1px solid var(--ink);
+  background: var(--ink);
   color: #ffffff;
   text-decoration: none;
   font-size: 14px;
@@ -200,20 +246,22 @@ h3 {
 }
 
 .btn:hover {
-  opacity: 0.92;
   transform: translateY(-1px);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: #ffffff;
 }
 
 .btn.ghost {
   background: transparent;
-  color: #111111;
+  color: var(--ink);
   border-color: rgba(0, 0, 0, 0.14);
 }
 
 .btn.ghost:hover {
-  background: rgba(0, 0, 0, 0.04);
-  color: #111111;
-  border-color: rgba(0, 0, 0, 0.22);
+  background: rgba(174, 195, 234, 0.18);
+  color: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 /* ---------------- FORMULARIO ---------------- */
@@ -234,7 +282,7 @@ select {
   font: inherit;
   width: 100%;
   background: #fff;
-  color: #111111;
+  color: var(--ink);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -242,8 +290,8 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: rgba(0, 0, 0, 0.28);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px rgba(174, 195, 234, 0.35);
 }
 
 textarea {
@@ -283,9 +331,9 @@ textarea {
 .source {
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  background: #fff;
+  background: var(--accent-soft);
 }
 
 #problema .emphasis {
@@ -346,7 +394,7 @@ textarea {
   height: 24px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #111111;
+  border: 1px solid var(--ink);
   border-radius: 999px;
   font-size: 12px;
 }
@@ -424,7 +472,20 @@ textarea {
   margin-top: 96px;
   padding-top: 22px;
   font-size: 12px;
-  opacity: 0.55;
+  opacity: 0.7;
+}
+
+.foot p {
+  margin: 0 0 6px;
+}
+
+.foot a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.foot a:hover {
+  color: var(--accent-strong);
 }
 
 /* ---------------- DESKTOP ---------------- */
@@ -459,5 +520,11 @@ textarea {
 
   .section:nth-of-type(even) {
     padding: 32px 28px;
+  }
+}
+
+@media (min-width: 900px) {
+  .site-nav {
+    display: flex;
   }
 }
