@@ -1,5 +1,5 @@
 /* ================================
-   FBOS Landing v1.1
+   FBOS Landing v1.2
    Mobile-first · minimal · refined
 ================================ */
 
@@ -32,7 +32,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Contenedor principal */
+/* ================================
+   Layout container
+================================ */
 
 .wrap {
   max-width: 1120px;
@@ -52,23 +54,32 @@ body {
   z-index: 20;
 }
 
+/* importante: evitar padding heredado del wrap */
+
+.site-header .wrap {
+  padding: 0 20px;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 120px; /* ajuste */
+  height: 72px;
 }
 
 .brand {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .brand-mark {
-  height: 50px; /* ajuste principal del logo */
+  height: 44px;
   width: auto;
   display: block;
 }
+
+/* navegación */
 
 .site-nav {
   display: none;
@@ -90,7 +101,7 @@ body {
 /* ---------------- HERO ---------------- */
 
 .hero {
-  padding: 32px 0 12px;
+  padding: 24px 0 8px;
   background:
     radial-gradient(circle at 85% 15%, rgba(174,195,234,0.25), transparent 55%);
 }
@@ -338,7 +349,13 @@ textarea {
 }
 
 @media (min-width: 900px) {
+
   .site-nav {
     display: flex;
   }
+
+  .brand-mark {
+    height: 48px;
+  }
+
 }
