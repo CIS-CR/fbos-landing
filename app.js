@@ -15,7 +15,19 @@ const submitBtn = form?.querySelector('button[type="submit"]');
 
 const requestTypeEl = document.getElementById("requestType");
 const demoVerticalEl = document.getElementById("demoVertical");
+const countrySelect = document.getElementById("country");
+const countryOther = document.getElementById("countryOther");
 
+countrySelect?.addEventListener("change", () => {
+  if (countrySelect.value === "Otro") {
+    countryOther.style.display = "block";
+    countryOther.required = true;
+  } else {
+    countryOther.style.display = "none";
+    countryOther.required = false;
+    countryOther.value = "";
+  }
+});
 function setStatus(msg, kind = "") {
   if (!statusEl) return;
   statusEl.className = `fine ${kind}`.trim();
