@@ -275,7 +275,40 @@
             <input id="industry" name="industry" placeholder="Industria" autocomplete="organization-title" required />
             <input id="teamSize" name="teamSize" type="number" min="1" step="1" inputmode="numeric" placeholder="Tamaño del equipo" autocomplete="off" />
             <textarea id="pain" name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
-            <input id="country" name="country" placeholder="País" autocomplete="country-name" />
+            <select id="country" name="country" autocomplete="country-name">
+              <option value="">País</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Australia">Australia</option>
+              <option value="Bolivia">Bolivia</option>
+              <option value="Brasil">Brasil</option>
+              <option value="Canadá">Canadá</option>
+              <option value="Chile">Chile</option>
+              <option value="Colombia">Colombia</option>
+              <option value="Costa Rica">Costa Rica</option>
+              <option value="Ecuador">Ecuador</option>
+              <option value="El Salvador">El Salvador</option>
+              <option value="España">España</option>
+              <option value="Estados Unidos">Estados Unidos</option>
+              <option value="Guatemala">Guatemala</option>
+              <option value="Honduras">Honduras</option>
+              <option value="México">México</option>
+              <option value="Nicaragua">Nicaragua</option>
+              <option value="Panamá">Panamá</option>
+              <option value="Paraguay">Paraguay</option>
+              <option value="Perú">Perú</option>
+              <option value="Puerto Rico">Puerto Rico</option>
+              <option value="República Dominicana">República Dominicana</option>
+              <option value="Uruguay">Uruguay</option>
+              <option value="Venezuela">Venezuela</option>
+              <option value="Otro">Otro</option>
+            </select>
+
+            <input
+              id="countryOther"
+              name="countryOther"
+              placeholder="Especifica tu país"
+              style="display:none"
+            />
 
             <div class="cf-turnstile" data-sitekey="0x4AAAAAACo2kg_YUeI2tGEs"></div>
             
