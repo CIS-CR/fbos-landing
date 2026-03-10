@@ -381,3 +381,6 @@ textarea {
   color: var(--accent);
   font-weight: 600;
 }
+.cf-turnstile {
+  margin: 16px 0 18px;
+}
