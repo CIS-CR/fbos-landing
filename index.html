@@ -28,6 +28,10 @@
     <meta property="og:image" content="https://fbos.org/assets/og-fbos.jpg" />
     <link rel="canonical" href="https://fbos.org/" />
 
+    <link rel="alternate" hreflang="es" href="https://fbos.org/" />
+    <link rel="alternate" hreflang="en" href="https://fbos.org/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://fbos.org/" />
+
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FBOS — Orden Operativo Simple" />
@@ -56,6 +60,12 @@
           <a href="#infra">Infraestructura</a>
           <a href="#explorar">Explorar</a>
         </nav>
+
+        <div class="lang-switch" aria-label="Selector de idioma">
+          <a href="/" class="lang-link active" lang="es" hreflang="es">ES</a>
+          <span class="lang-sep">/</span>
+          <a href="/en/" class="lang-link" lang="en" hreflang="en">EN</a>
+        </div>
       </div>
     </header>
 
@@ -204,7 +214,6 @@
         <h2 id="verticales-title">Verticales activas</h2>
 
         <div class="grid">
-
           <article class="card">
             <h3>Taller de reparación de tablas de surf — Australia 🇦🇺</h3>
             <p>Gestión simple de trabajos de reparación.</p>
@@ -246,7 +255,6 @@
               Solicitar demo
             </a>
           </article>
-
         </div>
 
         <p class="fine">
@@ -275,6 +283,7 @@
             <input id="industry" name="industry" placeholder="Industria" autocomplete="organization-title" required />
             <input id="teamSize" name="teamSize" type="number" min="1" step="1" inputmode="numeric" placeholder="Tamaño del equipo" autocomplete="off" />
             <textarea id="pain" name="pain" rows="3" placeholder="Principal problema operativo"></textarea>
+
             <select id="country" name="country" autocomplete="country-name">
               <option value="">País</option>
               <option value="Argentina">Argentina</option>
@@ -313,7 +322,7 @@
             />
 
             <div class="cf-turnstile" data-sitekey="0x4AAAAAACo2kg_YUeI2tGEs"></div>
-            
+
             <button type="submit" class="btn">Evaluar mi caso</button>
 
             <p class="fine">
