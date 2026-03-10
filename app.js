@@ -1,10 +1,11 @@
-// /app.js — FBOS Landing (Implementations intake) v4
+// /app.js — FBOS Landing (Implementations intake) v5
 // - Connects form to fbos-landing-intake Worker
 // - Worker forwards to Core API
 // - Worker sends email to client + hello@fbos.org
 // - Vertical cards set requestType=demo + demoVertical
 // - CTA "Evaluar mi caso" forces evaluation mode
 // - Includes Cloudflare Turnstile token in payload
+// - Shows extra country field when "Otro" is selected
 
 const API_BASE = "https://fbos-landing-intake.colinisaunders.workers.dev";
 const ENDPOINT = "/api/demos/implementations/submit";
@@ -18,16 +19,21 @@ const demoVerticalEl = document.getElementById("demoVertical");
 const countrySelect = document.getElementById("country");
 const countryOther = document.getElementById("countryOther");
 
-countrySelect?.addEventListener("change", () => {
-  if (countrySelect.value === "Otro") {
-    countryOther.style.display = "block";
-    countryOther.required = true;
-  } else {
-    countryOther.style.display = "none";
-    countryOther.required = false;
+function toggleCountryOther() {
+  if (!countrySelect || !countryOther) return;
+
+  const isOther = countrySelect.value === "Otro";
+
+  countryOther.hidden = !isOther;
+  countryOther.required = isOther;
+
+  if (!isOther) {
     countryOther.value = "";
   }
-});
+}
+
+countrySelect?.addEventListener("change", toggleCountryOther);
+
 function setStatus(msg, kind = "") {
   if (!statusEl) return;
   statusEl.className = `fine ${kind}`.trim();
@@ -73,10 +79,11 @@ function getFormJSON(formEl) {
   fd.forEach((v, k) => {
     data[k] = str(v);
   });
-  
+
   if (data.country === "Otro" && data.countryOther) {
-  data.country = data.countryOther;
-}
+    data.country = data.countryOther;
+  }
+
   data.source = "fbos-landing.pages";
   data.user_agent = navigator.userAgent;
   data.client_ts = new Date().toISOString();
@@ -100,6 +107,7 @@ document.querySelectorAll('a[href="#explorar"]:not([data-request="demo"])').forE
 
 // Default mode on load
 setMode("evaluation");
+toggleCountryOther();
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -157,6 +165,8 @@ form?.addEventListener("submit", async (e) => {
 
     if (requestTypeEl) requestTypeEl.value = currentMode;
     if (demoVerticalEl) demoVerticalEl.value = currentVertical;
+
+    toggleCountryOther();
 
     if (submitBtn) {
       submitBtn.textContent = currentMode === "demo" ? "Solicitar demo" : "Evaluar mi caso";
