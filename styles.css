@@ -384,3 +384,60 @@ textarea {
 .cf-turnstile {
   margin: 16px 0 18px;
 }
+/* ================================
+   Language switch
+================================ */
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.lang-link {
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1;
+  opacity: 0.62;
+  transition: opacity 0.2s ease;
+}
+
+.lang-link:hover {
+  opacity: 1;
+}
+
+.lang-link.active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.lang-sep {
+  opacity: 0.35;
+}
+
+@media (max-width: 860px) {
+  .header-inner {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .site-nav {
+    order: 3;
+    width: 100%;
+  }
+
+  .lang-switch {
+    order: 2;
+    margin-left: auto;
+  }
+}
