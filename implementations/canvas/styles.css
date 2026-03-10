@@ -1,0 +1,304 @@
+/* implementations/canvas/styles.css
+   FBOS Canvas — premium UI layer (SCOPED)
+   ✅ Scope: solo aplica dentro de <body class="impl-canvas">
+*/
+
+/* =========================
+   Scope base + tokens
+========================= */
+body.impl-canvas {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #0b0b0b;
+  --muted: rgba(0,0,0,.62);
+  --line: rgba(0,0,0,.08);
+  --line2: rgba(0,0,0,.10);
+  --shadow: 0 14px 50px rgba(0,0,0,.10);
+  --r12: 12px;
+  --r16: 16px;
+  --r20: 20px;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+body.impl-canvas a { color: inherit; }
+body.impl-canvas a:hover { opacity: .92; }
+
+/* =========================
+   Layout principal
+========================= */
+body.impl-canvas .wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 18px 60px;
+}
+
+/* Header */
+body.impl-canvas .header{
+  padding-bottom: 10px;
+}
+
+body.impl-canvas .brand{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+
+body.impl-canvas .brand .mark{
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  background: #0b0b0b;
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+}
+
+body.impl-canvas .brand h1{
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+body.impl-canvas .brand p{
+  margin: 6px 0 0;
+  opacity: .72;
+  font-size: 14px;
+}
+
+/* =========================
+   Nav pills
+========================= */
+body.impl-canvas .sd-nav{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding: 8px 0 14px;
+  flex-wrap: wrap;
+}
+
+body.impl-canvas .sd-nav__item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.75);
+  text-decoration:none;
+  font-weight: 650;
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+}
+
+body.impl-canvas .sd-nav__item:hover{
+  background: #fff;
+}
+
+body.impl-canvas .sd-nav__item.is-active{
+  background: #0b0b0b;
+  color: #fff;
+  border-color: rgba(0,0,0,.90);
+}
+
+/* =========================
+   Card contenedor principal
+========================= */
+body.impl-canvas .card{
+  border-radius: var(--r20);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.92), #fff);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+body.impl-canvas .fbos-logo-slot{
+  margin: 16px 18px 0;
+  padding: 12px 14px;
+  border: 1px dashed rgba(0,0,0,.18);
+  color: rgba(0,0,0,.55);
+  border-radius: 14px;
+  background: rgba(255,255,255,.7);
+}
+
+/* =========================
+   Toolbar
+========================= */
+body.impl-canvas .canvas-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.85);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+/* =========================
+   Board Layout
+========================= */
+
+/* Mobile-first: vertical */
+body.impl-canvas .board{
+  padding: 12px 14px 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: start;
+  overflow-x: hidden;
+}
+
+/* Desktop: horizontal */
+@media (min-width: 820px){
+  body.impl-canvas .board{
+    padding: 16px 18px 18px;
+    grid-template-columns: repeat(6, minmax(240px, 1fr));
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  body.impl-canvas .board::-webkit-scrollbar{ height: 10px; }
+  body.impl-canvas .board::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,.12);
+    border-radius: 999px;
+  }
+}
+
+/* =========================
+   Column
+========================= */
+body.impl-canvas .state-section{
+  background: rgba(255,255,255,.80);
+  border: 1px solid var(--line);
+  border-radius: var(--r16);
+  padding: 12px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.06);
+  min-height: 120px;
+}
+
+body.impl-canvas .state-header{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 2px 10px;
+}
+
+body.impl-canvas .state-title{
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+body.impl-canvas .state-cards{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* =========================
+   ✅ Sticky header por estado (MOBILE ONLY)
+========================= */
+@media (max-width: 819px){
+
+  body.impl-canvas .state-section{
+    overflow: visible;
+    /* ✅ Reserva espacio para que el primer card nunca quede debajo del sticky */
+    padding-top: 56px; /* ajustable (52–64px) según cómo lo veas */
+  }
+
+  body.impl-canvas .state-header{
+    position: sticky;
+    top: 72px; /* debajo del toolbar */
+    z-index: 40;
+
+    /* ❌ elimina el margin negativo */
+    margin: 0 0 10px;
+
+    /* ✅ “full width” sin trucos raros */
+    padding: 12px 12px 10px;
+
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+
+    border-top-left-radius: var(--r16);
+    border-top-right-radius: var(--r16);
+
+    box-shadow: 0 10px 18px rgba(0,0,0,.04);
+  }
+
+  body.impl-canvas .state-cards{
+    /* ya no hace falta empujar con padding extra, pero lo puedes dejar en 0–6px */
+    padding-top: 0;
+  }
+
+  body.impl-canvas .state-title{
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* =========================
+   Action card
+========================= */
+body.impl-canvas .action-card{
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r16);
+  padding: 12px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.06);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+body.impl-canvas .action-card:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 18px 34px rgba(0,0,0,.09);
+}
+
+body.impl-canvas .action-card__top{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+body.impl-canvas .action-id{
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+body.impl-canvas .action-title{
+  margin: 10px 0 6px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+body.impl-canvas .action-desc{
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* =========================
+   Modal
+========================= */
+body.impl-canvas .label-modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0,0,0,.48);
+  z-index: 9999;
+}
+
+body.impl-canvas .label-modal[aria-hidden="false"]{
+  display: flex;
+}

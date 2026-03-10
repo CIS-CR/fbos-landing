@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FBOS Canvas — Implementations</title>
+
+    <link rel="icon" href="data:," />
+
+    <!-- Base styles del landing -->
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- Estilos específicos para este canvas (scoped por .impl-canvas) -->
+    <link rel="stylesheet" href="/implementations/canvas/styles.css" />
+  </head>
+
+  <!-- ✅ CLAVE: scope del canvas para evitar colisiones con /styles.css -->
+  <body class="impl-canvas">
+    <main class="wrap">
+      <header class="header">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1>FBOS Canvas</h1>
+            <p>Leads — Implementations</p>
+          </div>
+        </div>
+      </header>
+
+      <nav class="sd-nav" aria-label="FBOS navegación">
+        <a class="sd-nav__item" href="/#explorar">Landing</a>
+        <a class="sd-nav__item is-active" href="/implementations/canvas/">Canvas</a>
+        <a class="sd-nav__item" href="/implementations/history/">Historial</a>
+      </nav>
+
+      <section class="card">
+        <div class="fbos-logo-slot">Tu logo aquí</div>
+        <div id="actionsList" class="actions-list" data-demo="implementations"></div>
+      </section>
+
+      <footer class="footer">
+        <small>FBOS Canvas v0.1 — implementations</small>
+      </footer>
+    </main>
+
+    <div id="jobModal" class="label-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="label-card" role="document">
+        <div class="label-head">
+          <strong>Solicitud</strong>
+          <button type="button" class="label-close" id="jobCloseBtn" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="label-body">
+          <div class="label-top">
+            <div>
+              <div class="label-id" id="jobModalId">FBOS-00000</div>
+              <div class="label-meta" id="jobModalState">—</div>
+            </div>
+          </div>
+
+          <div class="label-grid">
+            <div><strong>Categoría:</strong> <span id="jobModalCategory">—</span></div>
+            <div><strong>Urgencia:</strong> <span id="jobModalUrgency">—</span></div>
+
+            <div><strong>Nombre:</strong> <span id="jobModalDamage">—</span></div>
+            <div><strong>País:</strong> <span id="jobModalPrice">—</span></div>
+
+            <div class="label-desc">
+              <strong>Descripción:</strong> <span id="jobModalDesc">—</span>
+            </div>
+
+            <div><strong>Creado:</strong> <span id="jobModalCreated">—</span></div>
+            <div><strong>Actualizado:</strong> <span id="jobModalUpdated">—</span></div>
+          </div>
+
+          <div id="jobModalStatus" class="status" aria-live="polite"></div>
+
+          <div class="label-comments">
+            <div class="label-comments__title">Comentarios</div>
+            <div id="jobCommentsList" class="comments-list"></div>
+
+            <div class="comments-composer">
+              <textarea
+                id="jobCommentText"
+                class="comments-textarea"
+                rows="3"
+                placeholder="Escribe un comentario..."
+              ></textarea>
+
+              <div class="comments-actions">
+                <input
+                  id="jobCommentBy"
+                  class="comments-by"
+                  type="text"
+                  placeholder="Tu nombre (opcional)"
+                />
+                <button id="jobCommentSendBtn" class="btn-secondary" type="button">
+                  Comentar
+                </button>
+              </div>
+
+              <div id="jobCommentStatus" class="inline-msg" style="display: none"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="label-actions">
+          <button type="button" class="btn-secondary" id="jobOpenScanBtn">Abrir landing</button>
+          <button type="button" class="btn-secondary" id="jobOpenApiBtn">Open API</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.FBOS_CANVAS_CONFIG = {
+        useMultiDemo: true,
+        demos: {
+          implementations: {
+            demo: "implementations",
+            scanPath: "/#explorar",
+            states: ["Nuevas", "Validadas", "Asignadas", "En ejecución", "En revisión", "Cerradas"],
+            actionLabel: {
+              Nuevas: "Validar",
+              Validadas: "Asignar",
+              Asignadas: "Iniciar",
+              "En ejecución": "Revisión",
+              "En revisión": "Cerrar",
+              Cerradas: "Cerrada",
+            },
+          },
+        },
+      };
+    </script>
+
+    <script src="/implementations/canvas.js"></script>
+  </body>
+</html>
