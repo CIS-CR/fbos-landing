@@ -73,7 +73,10 @@ function getFormJSON(formEl) {
   fd.forEach((v, k) => {
     data[k] = str(v);
   });
-
+  
+  if (data.country === "Otro" && data.countryOther) {
+  data.country = data.countryOther;
+}
   data.source = "fbos-landing.pages";
   data.user_agent = navigator.userAgent;
   data.client_ts = new Date().toISOString();
