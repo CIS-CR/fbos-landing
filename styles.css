@@ -64,6 +64,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   height: 72px;
 }
 
@@ -325,7 +326,6 @@ textarea {
 /* ---------------- DESKTOP ---------------- */
 
 @media (min-width: 820px) {
-
   .hero {
     padding-top: 32px;
   }
@@ -350,7 +350,6 @@ textarea {
 }
 
 @media (min-width: 900px) {
-
   .site-nav {
     display: flex;
   }
@@ -358,8 +357,8 @@ textarea {
   .brand-mark {
     height: 48px;
   }
-
 }
+
 .infra-list {
   list-style: none;
   padding: 0;
@@ -381,35 +380,39 @@ textarea {
   color: var(--accent);
   font-weight: 600;
 }
+
 .cf-turnstile {
   margin: 16px 0 18px;
 }
+
 /* ================================
    Language switch
 ================================ */
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
 .lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   margin-left: auto;
+  padding: 4px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
   white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .lang-link {
   text-decoration: none;
   color: var(--ink);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   line-height: 1;
-  opacity: 0.62;
-  transition: opacity 0.2s ease;
+  padding: 8px 10px;
+  border-radius: 999px;
+  opacity: 0.58;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 .lang-link:hover {
@@ -419,10 +422,12 @@ textarea {
 .lang-link.active {
   opacity: 1;
   font-weight: 600;
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.04);
 }
 
 .lang-sep {
-  opacity: 0.35;
+  display: none;
 }
 
 @media (max-width: 860px) {
@@ -439,5 +444,10 @@ textarea {
   .lang-switch {
     order: 2;
     margin-left: auto;
+  }
+
+  .lang-link {
+    padding: 7px 9px;
+    font-size: 0.8rem;
   }
 }
