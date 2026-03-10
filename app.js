@@ -1,9 +1,10 @@
-// /app.js — FBOS Landing (Implementations intake) v3
+// /app.js — FBOS Landing (Implementations intake) v4
 // - Connects form to fbos-landing-intake Worker
 // - Worker forwards to Core API
 // - Worker sends email to client + hello@fbos.org
 // - Vertical cards set requestType=demo + demoVertical
 // - CTA "Evaluar mi caso" forces evaluation mode
+// - Includes Cloudflare Turnstile token in payload
 
 const API_BASE = "https://fbos-landing-intake.colinisaunders.workers.dev";
 const ENDPOINT = "/api/demos/implementations/submit";
@@ -38,6 +39,21 @@ function setMode(mode, vertical = "") {
   setStatus("");
 }
 
+function getTurnstileToken(formEl) {
+  const tokenInput = formEl?.querySelector('input[name="cf-turnstile-response"]');
+  return str(tokenInput?.value);
+}
+
+function resetTurnstile() {
+  if (window.turnstile && typeof window.turnstile.reset === "function") {
+    try {
+      window.turnstile.reset();
+    } catch (error) {
+      console.warn("No se pudo resetear Turnstile", error);
+    }
+  }
+}
+
 function getFormJSON(formEl) {
   const fd = new FormData(formEl);
   const data = {};
@@ -49,6 +65,7 @@ function getFormJSON(formEl) {
   data.source = "fbos-landing.pages";
   data.user_agent = navigator.userAgent;
   data.client_ts = new Date().toISOString();
+  data["cf-turnstile-response"] = getTurnstileToken(formEl);
 
   return data;
 }
@@ -86,6 +103,11 @@ form?.addEventListener("submit", async (e) => {
     return;
   }
 
+  if (!payload["cf-turnstile-response"]) {
+    setStatus("Por favor completa la verificación de seguridad.", "err");
+    return;
+  }
+
   const originalBtnText = submitBtn ? submitBtn.textContent : "";
 
   if (submitBtn) {
@@ -116,6 +138,7 @@ form?.addEventListener("submit", async (e) => {
     const currentVertical = demoVerticalEl?.value || "";
 
     form.reset();
+    resetTurnstile();
 
     if (requestTypeEl) requestTypeEl.value = currentMode;
     if (demoVerticalEl) demoVerticalEl.value = currentVertical;
@@ -134,6 +157,7 @@ form?.addEventListener("submit", async (e) => {
     );
   } catch (err) {
     setStatus(`No se pudo registrar: ${err.message}`, "err");
+    resetTurnstile();
 
     if (submitBtn) {
       submitBtn.textContent = originalBtnText || "Enviar";
