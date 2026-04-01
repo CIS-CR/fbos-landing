@@ -1,1 +1,149 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FBOS History — Implementations</title>
 
+    <link rel="icon" href="data:," />
+
+    <!-- Base styles -->
+    <link rel="stylesheet" href="/styles.css" />
+
+    <!-- Reutilizamos estilos del canvas para consistencia -->
+    <link rel="stylesheet" href="/implementations/canvas/styles.css" />
+
+    <style>
+      .history-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .history-item {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 12px;
+      }
+
+      .history-meta {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 4px;
+      }
+
+      .history-state {
+        font-weight: 600;
+      }
+
+      .empty {
+        padding: 24px;
+        text-align: center;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body class="impl-canvas">
+    <main class="wrap">
+      <!-- HEADER -->
+      <header class="header">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>
+            <h1>FBOS History</h1>
+            <p>Tracking — Implementations</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- NAV -->
+      <nav class="sd-nav" aria-label="FBOS navegación">
+        <a class="sd-nav__item" href="/#explorar">Landing</a>
+        <a class="sd-nav__item" href="/implementations/canvas/">Canvas</a>
+        <a class="sd-nav__item is-active" href="/implementations/history/">Historial</a>
+      </nav>
+
+      <!-- CONTENT -->
+      <section class="card">
+        <div id="historyContainer"></div>
+      </section>
+
+      <footer class="footer">
+        <small>FBOS History v0.1 — implementations</small>
+      </footer>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const actionId = params.get("q");
+      const container = document.getElementById("historyContainer");
+
+      // Estado vacío
+      if (!actionId) {
+        container.innerHTML = `
+          <div class="empty">
+            No hay acción seleccionada<br />
+            <small>Usa ?q=FBOS-xxxxx</small>
+          </div>
+        `;
+      } else {
+        // UI base
+        container.innerHTML = `
+          <div class="history-box">
+            <div class="history-item">
+              <div class="history-meta">${actionId}</div>
+              <div class="history-state">Cargando historial...</div>
+            </div>
+          </div>
+        `;
+
+        // ⚠️ FASE 2: conectar Core API aquí
+        // Simulación temporal (puedes borrar luego)
+        setTimeout(() => {
+          container.innerHTML = `
+            <div class="history-box">
+
+              <div class="history-item">
+                <div class="history-meta">${actionId} — ahora</div>
+                <div class="history-state">En revisión</div>
+              </div>
+
+              <div class="history-item">
+                <div class="history-meta">${actionId} — hace 2h</div>
+                <div class="history-state">En ejecución</div>
+              </div>
+
+              <div class="history-item">
+                <div class="history-meta">${actionId} — hace 5h</div>
+                <div class="history-state">Asignadas</div>
+              </div>
+
+              <div class="history-item">
+                <div class="history-meta">${actionId} — hace 1d</div>
+                <div class="history-state">Validadas</div>
+              </div>
+
+              <div class="history-item">
+                <div class="history-meta">${actionId} — creación</div>
+                <div class="history-state">Nuevas</div>
+              </div>
+
+            </div>
+          `;
+        }, 500);
+
+        /*
+        FUTURO REAL:
+
+        fetch(`https://core-api.fbos/.../history?q=${actionId}`)
+          .then(res => res.json())
+          .then(data => {
+            renderHistory(data)
+          })
+        */
+      }
+    </script>
+  </body>
+</html>
